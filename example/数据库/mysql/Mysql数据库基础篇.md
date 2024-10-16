@@ -1,31 +1,35 @@
 ## mysql的启动
-1. 命令行输入 services.msc
-2. 命令行输入 net start mysql 80 启动数据库,输入 net stop mysql80 关闭数据库
+1. 命令行输入 `services.msc`
+2. 命令行输入 `net start mysql 80` 启动数据库,输入 `net stop mysql80 `关闭数据库
+3. 利用`docker`进行部署:
+```shell
+sudo docker run --name mysql-test -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql
+```
 
 ## mysql的客户端连接
 1. 直接利用客户端软件连接
-2. 命令行输入 mysql [ -h 服务器的IP地址] [-P 3306] -u root -p
+2. 命令行输入 `mysql [ -h 服务器的IP地址] [-P 3306] -u root -p`
 
 ## SQL-DDL数据库操作语句
 ### 查询
-1. 查询所有数据库 show databases
-2. 查询当前数据库 select database()
+1. 查询所有数据库 `show databases`
+2. 查询当前数据库 `select database()`
 
 ### 创建数据库
-1. createa database [ if not exists ] 数据库名称 [ default charest 字符集] [collect 排序规则 ]
+1. `createa database [ if not exists ] 数据库名称 [ default charest 字符集] [collect 排序规则 ]`
 
 ### 删除数据库
-1. drop databases [ if exists ]  数据库名称
+1. `drop databases [ if exists ]  数据库名称`
 
 ### 使用/切换数据库
-1. use 数据库名称
+1. `use 数据库名称`
 
 ## 对数据库中的表进行操作
 ### 查询数据库中的所有表结构
-1. show tables
+1. `show tables`
 
 ### 查询表的结构
-1. desc 表名
+1.` desc 表名`
 
 ### 查询指定的建表语句
 ```plain
@@ -45,23 +49,23 @@ create table 表名 (
 
 ### DDL-表操作-修改表中数据
 #### 添加字段
-+ alter table 表名 add 字段名 字段类型  [ comment 字段注释]
++ `alter table 表名 add 字段名 字段类型 [ comment 字段注释]`
 
 #### 修改字段类型
-+ alter table 表名 modify 字段名称 新数据类型(长度)
++ `alter table 表名 modify 字段名称 新数据类型(长度)`
 
 #### 修改字段名和类型
-+ alter table 表名 change 旧字段名称 新字段名称 类型(长度) [ comment 字段注释 ]
++ `alter table 表名 change 旧字段名称 新字段名称 类型(长度) [ comment 字段注释 ]`
 
 #### 删除字段
-+ alter table 表名 drop 字段名称
++` alter table 表名 drop 字段名称`
 
 #### 修改表名称
-+ alter table 表名 rename to 新的表名<font style="background-color:#E7E9E8;"></font>
++ `alter table 表名 rename to 新的表名<font style="background-color:#E7E9E8;"></font>`
 
 #### 删除表
-+ drop table [ if exists ] 表名 (其实就是完全删除表)
-+ truncate table 表名 （删除指定表并且重新创建该表,其实就是清空数据）
++ `drop table [ if exists ] 表名 (其实就是完全删除表)`
++ `truncate table 表名 （删除指定表并且重新创建该表,其实就是清空数据)`
 
 ## SQL-DML数据操作语句
 ### 添加数据(insert into 关键字和 values 关键字的使用)
@@ -441,8 +445,8 @@ SELECT 字段列表 FROM 表B ...;
 
 #### <font style="color:rgb(31, 35, 40);">行子查询(其实就是某一个数据,最后的格式就是  行=行)</font>
 1. <font style="color:rgb(31, 35, 40);">行子查询中子查询的结果子查询返回的是一行数据</font>
-2. <font style="color:rgb(31, 35, 40);">常用的操作符号: =,<>,IN,NOT IN;</font>
-3. <font style="color:rgb(31, 35, 40);">代码实现</font>
+2. 常用的操作符号: =,<>,IN,NOT IN;
+3. 代码实现
 
 ![](https://github.com/xzwsloser/mysql-study/raw/master/Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80%E7%AF%87%E7%AC%94%E8%AE%B0/2024-02-08-15-11-03.png)
 
