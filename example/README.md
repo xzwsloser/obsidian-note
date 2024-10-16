@@ -44,6 +44,7 @@
 ## QA
 ### 如何更改网页book的名字和链接等
 - 在仓库的 `book.toml` 内是书籍的配置信息, 含义参考  [mdbook](https://hellowac.github.io/mdbook-doc-zh/index.html)
+- 测试仓库
 
 ---
 - 如果你觉得这个仓库对你有帮助,可以给个免费的star⭐  ; )
