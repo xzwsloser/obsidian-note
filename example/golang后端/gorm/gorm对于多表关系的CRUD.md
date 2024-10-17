@@ -208,7 +208,115 @@ UPDATE `many_a` SET `name`='赵七' WHERE `aid` = 4
 INSERT INTO `many_b` (`classname`,`a_id`) VALUES ('复变函数与积分变化',4) ON DUPLICATE KEY UPDATE `a_id`=VALU)
 ```
 ## 多对多关系
-- 建立结构体:
+- 建立结构体(注意使用`JoinForeignKey`和`JoinReferenceKey`来指定中间表中的外键名称,否则使用默认的外键名称):
 ```go
-
+// 注意建立中间表的结构  
+// 建立中间表之后 joinForeignKey 表示连接到中间表的外键,JoinReferences 表示参照中间表的参考字段  
+type MM_a struct {  
+    Aid  int    `gorm:"column:aid;primaryKey;AutoIncrement"`  
+    Name string `gorm:"column:name"`  
+    Age  int    `gorm:"column:age"`  
+    Mbs  []MM_b `gorm:"many2many:many2many;joinForeignKey:A_id;JoinReferences:B_id"`  
+}  
+  
+type MM_b struct {  
+    Bid       int    `gorm:"column:bid;primaryKey;AutoIncrement"`  
+    ClassName string `gorm:"column:classname"`  
+    Mas       []MM_a `gorm:"many2many:many2many;joinForeignKey:B_id;JoinReferences:A_id"`  
+}  
+  
+type M2M struct {  
+    Cid  int `gorm:"column:cid;primaryKey;AutoIncrement"`  
+    A_id int `gorm:"column:a_id"`  
+    B_id int `gorm:"column:b_id"`  
+}  
+  
+func (m2m M2M) TableName() string {  
+    return "many2many"  
+}  
+func (ma MM_a) TableName() string {  
+    return "mm_a"  
+}  
+  
+func (mb MM_b) TableName() string {  
+    return "mm_b"  
+}
 ```
+- `CRUD`方法:
+```go
+// 还是需要按照需要进行查询  
+func Query_Many2Many() {  
+    var ma MM_a  
+    err := DB.Debug().Preload("Mbs").Find(&ma, 1).Error  
+    var mb MM_b  
+    err = DB.Debug().Preload("Mas").Find(&mb, 1).Error  
+    if err != nil {  
+       fmt.Println(err)  
+    }  
+    fmt.Println(ma)  
+    fmt.Println(mb)  
+}  
+  
+// 更新数据,还是需要根据关联进行更新  
+func Create_Many2Many() {  
+    mb := MM_b{  
+       ClassName: "c7",  
+    }  
+  
+    ma := MM_a{  
+       Name: "小明",  
+       Age:  23,  
+       Mbs:  []MM_b{mb},  
+    }  
+    err := DB.Debug().Create(&ma).Error  
+    if err != nil {  
+       fmt.Println(err)  
+    }  
+  
+}  
+  
+func Update_Many2Many() {  
+    // 首先更新 MM_a    ma := MM_a{  
+       Aid:  2,  
+       Name: "z111",  
+       Age:  33,  
+    }  
+    err := DB.Debug().Updates(&ma).Error  
+    if err != nil {  
+       fmt.Println(err)  
+    }  
+    // 更新后面的表,直接更新即可  
+    // 如果想要更新  
+    err = DB.Debug().Model(&MM_b{}).Where("classname = ?", "c5").Update("classname", "c55").Error  
+    if err != nil {  
+       fmt.Println(err)  
+    }  
+}  
+  
+func Update2_Many2Many() {  
+    // 利用 Association 进行添加  
+    ma := MM_a{Aid: 5}  
+    var mb MM_b  
+    err := DB.Debug().Model(&MM_b{}).Where("classname = ?", "c4").Find(&mb).Error  
+    err = DB.Debug().Model(&ma).Association("Mbs").Append(&mb)  
+    if err != nil {  
+       fmt.Println(err)  
+    }  
+}  
+  
+func Delete_Many2Many() {  
+    err := DB.Debug().Delete(&MM_a{Aid: 2}).Error  
+    if err != nil {  
+       fmt.Println(err)  
+    }  
+}
+```
+>总结: 在多表关系的`CURD`中,注意关联模式和预加载:
+>`Preload` 首先会把另外一张表的关联值查询得到
+>`Joins`底层使用反射机制进行`left joins`进行查询,所以只可以用于一对一的情况
+>`Association`用于一对多和多对多的关系,主要用于更新一个结构体中的关联的另外的一个结构体数据(更新,替换或者插入等操作)
+
+- 各种不同情况下的更新策略:
+	- 一对一关系: 更新是分别更新两个表的数据,也就是利用`Model`定位不同的表
+	- 一对多关系: 首先更新单张表,之后利用`Association`更新关联的表(必要的时候可以首先查询)
+	- 多对多关系: 同上(但是注意中间表的定制化!!!)
