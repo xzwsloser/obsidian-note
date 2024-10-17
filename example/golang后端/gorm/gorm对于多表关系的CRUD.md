@@ -69,7 +69,7 @@ func Update() {
        fmt.Println("update failed !")  
     }  
 }  
-  
+
 func Query() {  
     var sa Sin_a  
     // Preload中写结构体关联字段的名称  
@@ -99,4 +99,116 @@ func Delete() {
 }
 ```
 - 注意使用预加载模式的时候,`Preload`和`Joins`的参数是被关联的结构体的对象名称,这里就是`Sb`一定要注意这一点!,另外更新操作可以直接对于另外一张表进行操作,也可以使用`Association`关联模式进行操作
+- 注意利用`Preload`和`Joins`产生的`sql`语句的区别:
+```sql
+-- Preload
+-- 首先进行预加载,之后进行查询
+SELECT * FROM `sin_b` WHERE `sin_b`.`a_id` = 2
+SELECT * FROM `sin_a` WHERE aid = 2
+-- Joins
+-- 只会使用一条sql语句,效率更高
+SELECT `sin_a`.`aid`,`sin_a`.`name`,`sin_a`.`age`,`Sb`.`bid` AS `Sb__bid`,`Sb`.`password` AS `Sb__password`,`Sb`.`birthday` AS `Sb__birthday`,`Sb`.`a_id` AS `Sb__a_id` FROM `sin_a` LEFT JOIN `sin_b` `Sb` ON `sin_a`.`aid` = `Sb`.`a_id` WHERE aid = 3
+```
+- 一对一关系中更新数据,最好还时使用分开更新的方式,也就是首先更新主表中的数据,之后利用`DB.Model(&Sin_b{}).Where("a_id = ?",aid).Updates(数据)` 的方法进行数据的更新,`Association`主要用于一对多关系的更新
 ## 一对多
+- 结构体的建立:
+```go
+type Many_a struct {  
+    Aid  int      `gorm:"column:aid;primaryKey;AutoIncrement"`  
+    Name string   `gorm:"column:name"`  
+    Age  int      `gorm:"column:age"`  
+    Mbs  []Many_b `gorm:"foreignKey:A_id"`  
+}  
+  
+type Many_b struct {  
+    Bid       int    `gorm:"column:bid;primaryKey;AutoIncrement"`  
+    ClassName string `gorm:"column:classname"`  
+    A_id      int    `gorm:"column:a_id;"`  
+}  
+  
+func (ma Many_a) TableName() string {  
+    return "many_a"  
+}  
+  
+func (mb Many_b) TableName() string {  
+    return "many_b"  
+}
+```
+- 对于一对多关系的增删改查的方式:
+```go
+func Query_Preload() {  
+    // 利用 Preload 进行查询  
+    var ma Many_a  
+    err := DB.Debug().Preload("Mbs").Where("aid = ?", 1).Find(&ma).Error  
+    if err != nil {  
+       fmt.Println(err)  
+    }  
+    fmt.Println(ma)  
+}  
+  
+// 底层通过反射机制拿到结构体,的那是不可以对于切片使用反射  
+//  
+//  func Query_Joins() {  
+//     // 利用 Joins 进行查询  
+//     var ma Many_a  
+//     err := DB.Debug().Joins("Mbs").Where("aid = ?", 2).Find(&ma).Error  
+//     if err != nil {  
+//        fmt.Println(err)  
+//     }  
+//     fmt.Println(ma)  
+//  }  
+func Create_Many() {  
+    // 增加数据  
+    // 直接增加即可  
+    // 注意此时外键和主键都不用写  
+    mb := Many_b{  
+       ClassName: "大学物理",  
+    }  
+    ma := Many_a{  
+       Name: "赵六",  
+       Age:  22,  
+       Mbs:  []Many_b{mb},  
+    }  
+    err := DB.Debug().Create(&ma).Error  
+    if err != nil {  
+       fmt.Println(err)  
+    }  
+}  
+  
+// 同时更新多个字段使用 Updates , 更新单个字段使用 Update,更新关联值使用Association方法  
+func Update_Many() {  
+    // 更新数据  
+    // 可以使用 Association 进行更新,这里可以演示 Append 操作,当然还有很多其他的操作  
+    ma := Many_a{  
+       Aid:  4,  
+       Name: "赵七",  
+    }  
+    err := DB.Debug().Updates(&ma).Error  
+    err = DB.Debug().Model(&ma).Association("Mbs").Append(&Many_b{  
+       ClassName: "复变函数与积分变化",  
+    })  
+    if err != nil {  
+       fmt.Println(err)  
+    }  
+}  
+  
+// 删除操作,但是有外键的情况下不允许删除  
+func Delete_Many() {  
+    err := DB.Debug().Where("aid = ?", 1).Delete(&Many_a{})  
+    if err != nil {  
+       fmt.Println(err)  
+    }  
+}
+```
+- 注意此时由于`Joins`底层使用反射机制获取到结构体中所有的值和标签,所以对于切片来说,无法利用反射获取到所有值,所以不可以使用`Joins`方法进行查询操作
+- 更新单个值使用`Update`,更新多个值使用`Updates`,更新关联值使用`Association`(可以进行`Append,Count`等操作),利用`Save`操作表示没有数据就创建数据,有数据就更新数据但是不可以与`Model`一起使用
+	- `Associatoin`执行的时候的`SQL`语句:
+```sql
+UPDATE `many_a` SET `name`='赵七' WHERE `aid` = 4
+INSERT INTO `many_b` (`classname`,`a_id`) VALUES ('复变函数与积分变化',4) ON DUPLICATE KEY UPDATE `a_id`=VALU)
+```
+## 多对多关系
+- 建立结构体:
+```go
+
+```
