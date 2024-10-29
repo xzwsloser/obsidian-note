@@ -58,5 +58,6 @@ int kmpMatch(string& s , string& t) {
 	return -1;
 }
 ```
->参考题目: https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/description/
+>参考题目:
+> https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/description/
 >https://leetcode.cn/problems/repeated-substring-pattern/
