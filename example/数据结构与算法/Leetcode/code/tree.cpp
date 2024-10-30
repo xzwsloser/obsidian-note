@@ -183,3 +183,78 @@ static void level_order(TreeNode* root)
         if(node -> right) que.push(node -> right);
     } 
 }
+
+
+
+/*********************************
+*  复习过程
+*********************************/
+static void pre_order_re(TreeNode* root) 
+{
+    if(root == nullptr) return ;
+    statck<TreeNode*> st;
+    st.push(root);
+    TreeNode* node;
+    while(!st.empty()) {
+        node = st.front();
+        if(node != nullptr) {
+            st.pop();  // 防止重复入栈
+            if(node -> right) st.push(node -> right);
+            if(node -> left) st.push(node -> left);
+            st.push(node);
+            st.push(nullptr);
+        } else {
+            st.pop();
+            node = st.front();
+            st.pop();
+            printf("%d " , node -> val);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
