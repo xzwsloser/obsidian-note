@@ -41,3 +41,5 @@
 char *strdup(const char *s);
 ```
 - 另外介绍了监视内存的工具: `purify`和`valgrind`(非常强大)  [`valgrind`使用](https://zhuanlan.zhihu.com/p/75416381) 
+#### 虚拟内存的构建
+- 篇幅太长了 [[虚拟内存的构建]]
