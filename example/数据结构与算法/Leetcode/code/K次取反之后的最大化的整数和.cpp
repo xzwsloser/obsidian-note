@@ -21,11 +21,9 @@ public:
 
 
 
+// 或者在遍历的过程中找到需要改变的元素
 
-
-
-
-class Solution1 {
+class Solution {
 public:
     int largestSumAfterKNegations(vector<int>& A, int K) {
         sort(A.begin(), A.end());
@@ -45,3 +43,4 @@ public:
         return sum;
     }
 };
+
