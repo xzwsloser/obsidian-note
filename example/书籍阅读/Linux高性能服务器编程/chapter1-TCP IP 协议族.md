@@ -41,4 +41,36 @@ arp -a # 查看高速缓存
 arp -d IP # 删除对应的高速缓存
 arp -s IP MAC # 添加对应的缓存项
 ```
-10. 可以使用`tcpdump`命令进行通信过程中的抓包,参考: [利用tcpdump抓包](https://www.cnblogs.com/wongbingming/p/13212306.html) 
+10. 可以使用`tcpdump`命令进行通信过程中的抓包,参考: [利用tcpdump抓包](https://www.cnblogs.com/wongbingming/p/13212306.html) ,这里记录`tcpdump`的常用形式:
+```shell
+# tcpdump 命令的基本格式如下:
+tcpdump options proto dir type
+# options 选项,比如 -i interface
+# proto 协议 比如 ip,ip6,tcp,udp,icmp等
+# dir 数据流向 dst/src
+# type 类型过滤器 net host 等
+
+# 下面是对于 proto , dir , type 等类型的过滤器的说明
+# dir -> 根据数据流向过滤
+# type -> 根据种类过滤 比如 host(主机) port(端口) net(网段)
+tcpdump src net 192.168.10.0/24
+tcpdump src port 80 or 8880
+tcpdump src portrange 80-8880
+# 根据协议 proto 进行过滤
+tcpdump icmp # 查看 icmp报文
+tcpdump 'ip proto tcp'
+tcpdump 'ip6 proto tcp' # 表示 ip6 中的 tcp
+# 重要的选项
+tcpdump -i interface 指定网卡
+# 另外 tcpdump 中还包含条件组合的功能,此时如果出现特殊符号比如 () , 需要使用 () 保卫
+tcpdump 'src 10.0.2.4 and (dst port 3389 or 22)'
+# tcpdump 实战使用
+tcpdump -i eth0 -ent '(dst 192.168.0.2 and src 192.168.0.10) or (dst 192.168.1.2 and src 192.168.1.3)'
+# 利用 tcpdump 观察 DNS 通信过程,其中 -s 指定包的大小 , port domain 表示只是抓取使用域名服务的包
+sudo tcpdump -i wlp0s20f3 -nt -s 500 port domain 
+
+```
+11. `DNS`协议的工作原理: `DNS`的作用: 域名解析协议,`DNS`报文如下,具体的内容可以参考书籍 `P13-14`:
+![[Pasted image 20241203163408.png]]
+12. 由于传输层,网络层数据链路层协议都是在 `kernel`中实现的,所以需要提供一组系统调用来供用于使用,`socket` 就是这样一组系统调用
+13. `host` 用于利用`DNS`请求进行域名的查询,比如 `host -t A www.baidu.com`其中,`-t` 表示查询的记录类型
