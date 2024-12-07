@@ -20,10 +20,61 @@ ssize_t sendto(int sockfd, const void buf[.len], size_t len, int flags,
 
 ```
 另外还用通用的读写函数,但是一些简单的需求可以使用上面的函数就够了
-6. 可以使用如下函数来通过套接字来获取到绑定的地址结构体相关的信息:
+6. 可以使用如下函数来通过套接字来获取到绑定的地址结构体相关的信息(下面的参数都是传入传出参数):
 ```c
 #include<sys/socket.h>
 int getsockname(int sockfd , struct sockaddr* address , socklen_t* address_len);
 
 int getsockname(int sockfd , struct sockaddr* address , socklen_t* address_len);
+```
+7. 可以利用如下两个函数来修改 `socket`相关的选项:
+```c
+int getsockopt(int sockfd, int level, int optname,
+                      void optval[restrict *.optlen],
+                      socklen_t *restrict optlen);
+int setsockopt(int sockfd, int level, int optname,
+                      const void optval[.optlen],
+                      socklen_t optlen);
+
+```
+比如可以利用下面一个函数修改`TCP`缓冲区的大小,或者可以修改为允许端口复用,可选选项如下:
+![[Pasted image 20241207110724.png]]
+比如设置允许端口复用的方法如下:
+```c
+int setVal = 1;
+setsockopt(sockfd , SOL_SOCKET , SO_REUSEADDR , &setVal , sizeof(setVal));
+```
+8. 网络信息 `API` 种类很多,大多都是基于 `DNS`协议工作的,可以获取到主机名或者服务名(或者对应的端口),需要使用的时候查看
+9. `gethostbyname`和`gethostbyaddr` 通过主机名称或者主机地址来获取主机相关的信息(通过结构体 `struct hostent`来获取)
+10. `getserverbyname`和`getserverbyport` 通过服务名称或者服务端口获取服务相关的信息,结果存储在结构体: `struct servant`中
+11.  `getaddrinfo`通过主机名称或者服务名称来获取到主机或者服务相关的信息,函数原型如下:
+```c
+int getaddrinfo(const char *restrict node,
+                       const char *restrict service,
+                       const struct addrinfo *restrict hints,
+	                  struct addrinfo **restrict res);
+```
+返回结果是一个链表,链表中的节点存储这需要的数据:
+```c
+struct addrinfo {
+               int              ai_flags;
+               int              ai_family;
+               int              ai_socktype;
+               int              ai_protocol;
+               socklen_t        ai_addrlen;
+               struct sockaddr *ai_addr;
+               char            *ai_canonname;
+               struct addrinfo *ai_next;
+};
+```
+其中`hints`表示提示消息相当于过滤消息
+12. `getnameinfo`通过 `socket`地址同时获取到主机名称和服务名称:
+```c
+int getnameinfo(const struct sockaddr *restrict addr, socklen_t addrlen,
+                       char host[_Nullable restrict .hostlen],
+                       socklen_t hostlen,
+                       char serv[_Nullable restrict .servlen],
+                       socklen_t servlen,
+                       int flags);
+
 ```
