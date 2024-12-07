@@ -1,4 +1,4 @@
->主要还是补充了 `Linux` 中的一些基本知识
+ear主要还是补充了 `Linux` 中的一些基本知识
 1. `Linux`日志系统, `Linux`中通过守护进程 `syslogd` 来管理日志,对于 `kernel`,内核日志首先利用 `printk`等函数把信息打印到内核的环形缓冲区中,之后环形缓冲区中的内容直接映射到 `/proc/kmsg` 文件中,对于用户态,使用函数 `syslog` 首先把日志打印到 `/dev/log` 文件中,之后由 `syslogd`守护进程把文件同步到 `/var/log/*` 文件中, `Linux`的系统日志系统如下:
 ![[Pasted image 20241207144045.png]]
 相关函数比如 `syslog`和`openlog` 函数
