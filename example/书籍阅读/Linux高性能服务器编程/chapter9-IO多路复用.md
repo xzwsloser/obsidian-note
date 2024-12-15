@@ -52,6 +52,20 @@ int epoll_wait(int epfd, struct epoll_event *events,
 int epoll_ctl(int epfd, int op, int fd,
                      struct epoll_event *_Nullable event);
 ```
+其中`epoll_event`结构体如下:
+```c
+struct epoll_event {
+           uint32_t      events;  /* Epoll events */
+           epoll_data_t  data;    /* User data variable */
+};
+
+union epoll_data {
+           void     *ptr;
+           int       fd;
+           uint32_t  u32;
+           uint64_t  u64;
+};
+```
 下面解释上面函数的含义:
 	- `epoll_create`: 相当于创建内核文件注册表
 	- `epoll_wait`:  根据内核注册表中注册的监听事件来监听事件的活动
