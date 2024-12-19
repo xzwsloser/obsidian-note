@@ -70,6 +70,8 @@ git cherry-pick <commit-hash>
 ```
 git show <commit-hash>
 ```
+## git merge
+
 ## 记录
 ### p1: 切换到新的分支提交之后,切换到原来的分支并且删除之前的分支导致代码丢失
 - 解决方法如下:
@@ -77,4 +79,12 @@ git show <commit-hash>
 git reflog # 查看已经删除的分支的提交
 git show <commit-hash> # 查看已经提交的代码
 git cherry-pick <commit-hash> # 融合到本地分支
+```
+### p2: 如何合并本地分支到远程分支(比如test)
+- 合并的方法如下:
+```
+git checkout feat/ill_back
+git fetch origin test
+git merge origin master
+git push origin feat/ill_back:test
 ```
