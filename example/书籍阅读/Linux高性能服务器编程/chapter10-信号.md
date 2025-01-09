@@ -85,3 +85,7 @@ int sigpending(sigset_t *set);
 		 - 设置 `send`函数的选项中使用 `MSG_NOSIGNAL`标志,同时检测`errno`为 `EPIPE`从而检测管道是否关闭
 		 - 或者检测`poll`系统调用中的`POLLHUP`事件
 	  - `SIGUSR`: 用户自定义信号,可以用于检测带外数据或者作为特定事件的回调函数使用
+13. 注意 `sigaction`结构体中的 `sa_mask`就是在信号处理过程中需要屏蔽的信号集,同时利用 `sigprocmask`也可以设置屏蔽信号集,只不过利用`sigprocmask`设置的是整个进程的信号屏蔽集,总结:
+	1. `sigaction`中的`sa_mask`设置信号处理过程中的信号屏蔽集
+	2. `sigprocmaks`设置进程的信号屏蔽集
+	
