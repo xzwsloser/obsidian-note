@@ -243,4 +243,96 @@
 	- `keymaps`: 表示配置键位
 	- `options`: 表示配置编辑选项,比如是否开启相对行号
 - `plugins` 用于安装各种插件,比如需要安装一个插件就可以在这一个文件夹下新建一个文件并且填入配置信息即可,同时也可以新建一个 `disable.lua` 来记录插件启用情况
+## LazyVim 基本使用技巧
+> 参考:  https://www.lazyvim.org/keymaps
 
+### 快捷键和命令的设置
+- 配置文件目录结构如下:
+```txt
+├── init.lua
+├── lazy-lock.json
+├── lazyvim.json
+├── LICENSE
+├── lua
+│   ├── config
+│   │   ├── autocmds.lua
+│   │   ├── keymaps.lua
+│   │   ├── lazy.lua
+│   │   └── options.lua
+│   └── plugins
+│       └── example.lua
+├── README.md
+└── stylua.toml
+```
+- 修改键位:  修改 `lua/config/keymaps.lua` 即可
+- 修改选项:  修改`lua/config/options.lua`即可
+### 安装插件
+- 一般来说,`LazyExtra`中的额外插件就够使用了,所以可以使用 `:LazyExtra`命令来安装额外插件
+- 另外安装第三方插件需要在 `lua/plugins`文件夹下建立 `*.lua` 文件并且按照 `LazyVim` 要求的方式配置(还需要实践)
+### 常用快捷键
+- `Ctrl + h , j , k , l` : 移动到上下左右的窗口位置
+- `Ctrl + left , right , up  , down`: 增大/减小窗口的长度或者宽度的大小
+- `Alt + j , k`: 在任何模式下上下移动行/代码块
+- `Shift + h , l`: 左右移动到旁边的标签页
+- `<leader>bd`: **删除缓冲区**
+- `<leader>bD`: 删除缓冲区和窗口
+- `<leader>bo`: 删除其他缓冲区
+- `<leader>ur`: 清除高亮标记
+- `Ctrl + s`: 保存文件
+- `<leader>K`: 比如可以显示系统调用的文档,或者标准 C 库的文档
+- `gco , gcO`: 在上面或者下面添加注释
+- `<leader>l`: 启动插件管理栏
+- 各种 `Toggle` 命令比较有意思,可以参考 文档,比如
+- `<leader>ub`: 切换背景
+- `<leader>uL`: 切换相对行号的显示
+- `<leader>gb`: 显示当前文件提交信息
+- `<leader>ft`: 调出终端
+- `<leader>-`: 在下面分割出来屏幕
+- `<leader>|`: 子右边分割出来屏幕
+- `<leader>wd`: (Windows Delete) 删除窗口
+### 代码跳转
+- 利用 `ctags` 工具生成跳转标签,利用 `ctrl + [` 跳转到函数的实现位置
+- 如果写对了头文件的路径就可以使用  `gd` 可以进行实现找到定义,定义找到实现
+### LSP
+- 可以使用 `<leader>cl`进入到 `LSP` 管理界面,或者使用 `:Mason`也可以,找到需要的语言的`LSP`即可
+### buffer
+- `<leader>bl` 删除左边的缓冲区
+- `<leader>bp` 是否钉住缓冲区
+- `<leader>bP` 删除没钉住的缓冲区
+- `<leader>br` 删除右边的缓冲区
+### fzf(很好用的搜索插件)
+- `<leader><space>`: 查找文件
+- `<leader>/` 类似于 `Grep` 查找关键词
+- `<leader>:` 命令历史
+- `<leader>fb`: 查找缓冲区
+- `<leader>fc`: 寻找配置文件
+- `<leader>ff`: 和第一个一样
+- `<leader>fF`: 工作目录查找,还是类似
+- `<leader>fg`: 查找`git`文件
+- `<leader>fr`: 查找最近的文件
+- `<leader>gc`: 查看提交
+- `<leader>gs`: 查看状态
+- `<leader>sg`: 类似于上面的`Grep`,只不过是全局的
+- `<leader>sG`: 当前工作目录寻找
+- `<leader>ss`: 查找本文件中的符号,比如函数等
+- `<leader>sS`: 查找工作空间中的类函数等
+- `<leader>sw`: 还是和 `sg` 一样的
+- `<leader>uC`: 切换主题,挺好玩的
+### grug-far(感觉比较好用)
+- `<leader>sr` 匹配搜索到的单词
+### Mason
+- `<leader>cm`: 用于开启`Mason`,安装各种语言的自动提示
+### neo-tree
+- `<leader> be` 打开当前文件夹
+- `<leader>e` 打开/关闭文件夹
+- `<leader>fe` 一样
+- `<leader>ge` 打开`Git` 文件夹(没有追踪的)
+### noice
+- `<c-b>` 向后面滚动
+- `<c-f>` 向前面滚动
+- `<leader>sn` 添加注意事项
+### CopilotChat
+- `<leader> aa` 打开聊天框
+- `<leader> ap` 指定行为感觉没用
+- `<leader> aq` 快速提问
+- `<leader> ax` 清除屏幕
