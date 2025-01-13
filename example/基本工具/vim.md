@@ -220,4 +220,27 @@
 	- `c`: 替换前进行确认
 	- `n`: 计数而不是替换
 - 比如: `%s/vim//gn`
-## neovim配置
+## neovim配置以及基本使用(基于 LazyVim框架)
+- 首先`LazyVim` 相关的配置文件结构如下:
+```
+├── init.lua
+├── lazy-lock.json
+├── lazyvim.json
+├── LICENSE
+├── lua
+│   ├── config
+│   │   ├── autocmds.lua
+│   │   ├── keymaps.lua
+│   │   ├── lazy.lua
+│   │   └── options.lua
+│   └── plugins
+│       └── example.lua
+├── README.md
+└── stylua.toml
+```
+- 其中 `init.lua` 用于加载各种插件的配置文件
+- `lua/config` 中记录着各种配置:
+	- `keymaps`: 表示配置键位
+	- `options`: 表示配置编辑选项,比如是否开启相对行号
+- `plugins` 用于安装各种插件,比如需要安装一个插件就可以在这一个文件夹下新建一个文件并且填入配置信息即可,同时也可以新建一个 `disable.lua` 来记录插件启用情况
+
