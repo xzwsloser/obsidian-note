@@ -327,7 +327,7 @@
 - `<leader>e` 打开/关闭文件夹
 - `<leader>fe` 一样
 - `<leader>ge` 打开`Git` 文件夹(没有追踪的)
-### noice
+### noice(不知道有什么用)
 - `<c-b>` 向后面滚动
 - `<c-f>` 向前面滚动
 - `<leader>sn` 添加注意事项
