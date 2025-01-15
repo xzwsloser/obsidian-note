@@ -50,3 +50,76 @@ short          sem_flg;  /* operation flags */
 #include <sys/sem.h>
 int semctl(int semid, int semnum, int op, ...);
 ```
+- `semid`: 信号集的标识符
+- `semnum`: 被操作信号量在信号集中的编号
+- `op`: 指向的命令,后面的省略参数就是命令的参数
+- 省略参数: 一般使用 `union semun` 结构体来只是参数
+## 共享内存
+> 注意共享内存和`mmap`的区别,共享内存相关的`API`返回创建的共享内存的文件描述符号,`mmap`可以把开辟的内存空间映射到进程的内存空间中,也就是可以直接使用指针来操作内存
+1. 创建共享内存:
+```c
+#include <sys/shm.h>
+int shmget(key_t key, size_t size, int shmflg);
+```
+- `key`标识共享内存的唯一标识符号
+- `size`指定共享内存的大小
+- `shmflg` 权限
+2. 把共享内存关联/取消关联到进程的地址空间中(类似于 `mmap`/`munmap`):
+```c
+#include <sys/shm.h>
+void *shmat(int shmid, const void *_Nullable shmaddr, int shmflg);
+int shmdt(const void *shmaddr);
+```
+- `shmid`: 共享内存的标识符号
+- `shmaddr`: 传出参数,关联的指针,最好设置为 `NULL` 让他自己返回
+- `shmflg`: 各种标志
+3. 控制共享内存的某些属性:
+```c
+#include <sys/shm.h>
+int shmctl(int shmid, int op, struct shmid_ds *buf);
+```
+- `shmid`: 共享内存的标志
+- `op`: 命令
+- `buf`: 与设置相关
+4. 创建共享内存(类似于创建一个匿名文件):
+```c
+#include <sys/mman.h>
+#include <sys/stat.h>        /* For mode constants */
+#include <fcntl.h>           /* For O_* constants */
+int shm_open(const char *name, int oflag, mode_t mode);
+int shm_unlink(const char *name);
+```
+- 和`open`一样,第二个参数指定权限选项(比如`O_RDONLY等`)
+## 消息队列
+> 用于进程之间传递消息
+1. 创建消息队列:
+```c
+#include <sys/msg.h>
+int msgget(key_t key, int msgflg);
+```
+- `key`: 消息队列的标识符号
+- `msgflg`: 权限
+2. 发送消息:
+```c
+#include <sys/msg.h>
+int msgsnd(int msqid, const void msgp[.msgsz], size_t msgsz,
+                      int msgflg);
+ssize_t msgrcv(int msqid, void msgp[.msgsz], size_t msgsz, long msgtyp,int msgflg);
+```
+- `msqid`: 消息队列标识符号
+- `msgp`: 必须指向特殊的结构体需要体现消息类型和缓冲区大小
+- `msgsz`: 消息长度
+- `msgflg`: 设置是否阻塞等选项
+- 接受消息也是一样的
+3. 控制消息队列属性:
+```c
+#include <sys/msg.h>
+int msgctl(int msqid, int op, struct msqid_ds *buf);
+```
+
+> 感觉上面三种`IPC`方式太老了不太重要
+
+
+
+
+
