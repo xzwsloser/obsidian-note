@@ -163,3 +163,52 @@ makeWidget().doWork();  //调用被右值引用限定修饰的Widget::doWork版�
 - `final`: 修饰函数标识函数不可以被重写,修饰类标识类不可以别继承
 - `override`: 可以修饰重写函数,防止不满足重写规则
 # 7. 优先考虑 const_iterator而非iterator
+- `const_iterator` 相当于指向常量的指针,可以防止容器内的数据被改变,所以推荐使用,但是在`C++11`之前获取到`const_iterator` 比较困难,`C++11` 中引入了成员函数`cbegin , cend`可以直接获取到 `const_iteator`,同时`C++14`中有提供了自由函数`cbegin() 和 cend()` 可以直接对于容器进行操作获取到`const_iterator`
+- 总结:
+	- 优先考虑`const_iterator`而非`iterator`
+	- 最大程度通用的代码中考虑非成员函数版本的`begin , end , cbegin , cend`函数等
+# 8. 如果函数不抛出异常请使用noexcept
+- 如果确定函数不会抛出异常(前置条件强制满足)那么就可以把函数声明为 `noexcept`,这一个标记的优点如下:
+	- 与`non-noexcept`函数相比便于优化
+	- 对于移动语义,`swap`和内存释放函数和析构函数非常有用(比如`swap`函数是否抛出异常依赖于自己定义的`swap`是否抛出异常)
+- 在`C++98`和`C++11` 中不抛出异常的函数定义如下:
+```c++
+int f(int x) throw();   //C++98风格，没有来自f的异常
+int f(int x) noexcept;  //C++11风格，没有来自f的异常
+```
+- 另外注意:
+	- `noexcept`是函数接口的一部分,意味着调用者可能依赖它
+	- 大多数函数是异常中立的
+# 9. 尽可能使用constexpr
+## constexpr与const的区别
+- 对于`constexpr`修饰的变量,它的值都是编译期可知道的,但是`const`修饰的变量可能是运行时期可知的,所以利用`constexpr`可以作为函数模板参数等,举例说明:
+```c++
+// constexpr 修饰
+int sz;                             //non-constexpr变量
+…
+constexpr auto arraySize1 = sz;     //错误！sz的值在
+                                    //编译期不可知
+std::array<int, sz> data1;          //错误！一样的问题
+constexpr auto arraySize2 = 10;     //没问题，10是
+                                    //编译期可知常量
+std::array<int, arraySize2> data2;  //没问题, arraySize2是constexpr
+
+// const修饰
+int sz;                            //和之前一样
+…
+const auto arraySize = sz;         //没问题，arraySize是sz的const复制
+std::array<int, arraySize> data;   //错误，arraySize值在编译期不可知
+```
+## constexpr函数
+- `constexpr`函数的特点如下:
+	- 如果实参是编译时期可确定的,此时`constexpr`的结果就是编译时期计算的
+	- 当一个`constexpr`被一个或者多个编译时期不可知的值调用的时候,它就像普通函数一样,运行时计算结果
+- `C++11`中利用`constexpr`修饰的函数之可以有不超过一行语句,但是在`C++14`中放开了标准
+- 所以根据这一个特性,`constexpr`修饰的函数可以作为编译时期可知道的量处理
+- 总结:
+	- `constexpr`对象是`const`,被编译时期可知的值初始化
+	- 传递编译时期可知的值的时候,`const expr`可以产出编译时期可知的结果
+	- `constexpr`对象和函数的使用范围比较广阔
+	- `constexpr`是对象和函数接口的一部分
+# 10. 让const成员函数线程安全
+- `const`成员函数也就只有常对象才可以调用并且可以修改
