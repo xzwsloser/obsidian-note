@@ -37,3 +37,13 @@ public:
 };
 ```
 # 3. 当std::shared_ptr可能悬空的时候使用std::weak_ptr
+- 这里介绍了`weak_ptr`的两个作用:
+	- 管理`shared_ptr`,根据`shared_ptr`是否悬空创建对象(其中的`lock`方法是并发安全的)
+	- 解决`shared_ptr`的循环引用问题
+- 解决循环引用问题的方法如下:
+![[Pasted image 20250117161020.png]]
+指针使用`weak_ptr`即可
+- 总结:
+	- 用`std::weak_ptr`替代可能会悬空的`std::shared_ptr`。
+	- `std::weak_ptr`的潜在使用场景包括：缓存、观察者列表、打破`std::shared_ptr`环状结构。
+
