@@ -90,4 +90,45 @@ processWidget(std::shared_ptr<Widget>(new Widget),  //潜在的资源泄漏！
 	-  不适合使用`make`函数的情况包括需要指定自定义删除器和希望用花括号初始化。
 	- 对于`std::shared_ptr`s，其他不建议使用`make`函数的情况包括(1)有自定义内存管理的类；(2)特别关注内存的系统，非常大的对象，以及`std::weak_ptr`s比对应的`std::shared_ptr`s活得更久。
 
-# 当使用 Pimpl惯用法,请实现文件中定义特殊成员函数
+# 5. 当使用 Pimpl惯用法,请实现文件中定义特殊成员函数
+## Pimpl惯用法
+- 为了降低源代码之间的依赖关系,可以使用`Pimpl`惯用法,这一种方法类似于接口,使用方法如下:
+```c++
+class Widget                        //仍然在“widget.h”中
+{
+public:
+    Widget();
+    ~Widget();                      //析构函数在后面会分析
+    …
+
+private:
+    struct Impl;                    //声明一个 实现结构体
+    Impl *pImpl;                    //以及指向它的指针
+};
+
+
+#include "widget.h"             //以下代码均在实现文件“widget.cpp”里
+#include "gadget.h"
+#include <string>
+#include <vector>
+
+struct Widget::Impl {           //含有之前在Widget中的数据成员的
+    std::string name;           //Widget::Impl类型的定义
+    std::vector<double> data;
+    Gadget g1,g2,g3;
+};
+
+Widget::Widget()                //为此Widget对象分配数据成员
+: pImpl(new Impl)
+{}
+
+Widget::~Widget()               //销毁数据成员
+{ delete pImpl; }
+
+```
+但是在使用的时候一定需要注意，如果使用`unique_ptr` 来管理对象的时候一定需要定义类中的各种特殊成员函数,否则就会导致不完成的数据类型(声明但是没有定义)
+- 总结:
+	- Pimpl惯用法通过减少在类实现和类使用者之间的编译依赖来减少编译时间。
+	- 对于`std::unique_ptr`类型的`pImpl`指针，需要在头文件的类里声明特殊的成员函数，但是在实现文件里面来实现他们。即使是编译器自动生成的代码可以工作，也要这么做。
+	- 以上的建议只适用于`std::unique_ptr`，不适用于`std::shared_ptr`
+
