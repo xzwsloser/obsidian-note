@@ -47,3 +47,47 @@ public:
 	- 用`std::weak_ptr`替代可能会悬空的`std::shared_ptr`。
 	- `std::weak_ptr`的潜在使用场景包括：缓存、观察者列表、打破`std::shared_ptr`环状结构。
 
+# 4. 优先考虑使用std::make_unique和std::make_shared,而非直接使用new
+- `make_shared`是`C++11`的特性,`make_unique`是`C++14`的特性
+- 实现方法都是利用完美转发把参数转发给构造函数使用,比如`make_unique`的一种实现方式如下:
+```c++
+template<typename T,typename... Ts>
+std::unique_ptr<T> make_unique(Ts&&... params) 
+{
+	return unique_ptr<T>(new T(std::forward<Ts>(params)...));
+}
+```
+## 使用 make 函数减少重复代码片段
+- 比如使用`make`和`new` 创建智能指针的代码片段如下:
+```c++
+auto upw1(std::make_unique<Widget>());      //使用make函数
+std::unique_ptr<Widget> upw2(new Widget);   //不使用make函数
+auto spw1(std::make_shared<Widget>());      //使用make函数
+std::shared_ptr<Widget> spw2(new Widget);   //不使用make函数
+```
+减少了泛型的书写次数
+## 保证了异常安全
+- 对于如下代码:
+```c++
+processWidget(std::shared_ptr<Widget>(new Widget),  //潜在的资源泄漏！
+              computePriority());
+```
+- 执行顺序如下:
+	- 分配内存空间
+	- 智能指针指向内存空间
+	- 执行计算权重的函数
+- 这三个步骤可能顺序不确定,所以可能造成内存泄漏
+## 减少了内存分配次数
+- 利用 `new`首先分配堆区内存,之后分配控制块内存
+- 利用 `make` 控制块内存和堆区内存同时分配
+## make的缺点
+- 不可以自定义删除器
+- 花括号无法使用完美转发
+- 创建的对象比较大的时候,由于`weak_ptr`的存在,可能导致释放对象和释放控制块的事件出现延迟(但是利用`make`同时释放对象和控制块)
+
+- 总结:
+	- 和直接使用`new`相比，`make`函数消除了代码重复，提高了异常安全性。对于`std::make_shared`和`std::allocate_shared`，生成的代码更小更快。
+	-  不适合使用`make`函数的情况包括需要指定自定义删除器和希望用花括号初始化。
+	- 对于`std::shared_ptr`s，其他不建议使用`make`函数的情况包括(1)有自定义内存管理的类；(2)特别关注内存的系统，非常大的对象，以及`std::weak_ptr`s比对应的`std::shared_ptr`s活得更久。
+
+# 当使用 Pimpl惯用法,请实现文件中定义特殊成员函数
