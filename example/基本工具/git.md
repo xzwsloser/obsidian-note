@@ -71,7 +71,6 @@ git cherry-pick <commit-hash>
 git show <commit-hash>
 ```
 ## git merge
-
 ## 记录
 ### p1: 切换到新的分支提交之后,切换到原来的分支并且删除之前的分支导致代码丢失
 - 解决方法如下:
