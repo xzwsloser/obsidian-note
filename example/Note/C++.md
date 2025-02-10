@@ -101,6 +101,14 @@ int main() {
 }
 ```
 
+# 5. 可以接受任意函数作为参数并且返回 std::future 的函数模板写法
+
+一定需要注意,模板函数的实现需要写在头文件中,编译时期就需要确定了,写法如下:
+```c++
+template<typename F,typename... Args>
+auto AddTask(F&& f , Args&&... args) 
+-> std::future<typename std::result_of<F(Args...)>::type>
+```
 
 
 
