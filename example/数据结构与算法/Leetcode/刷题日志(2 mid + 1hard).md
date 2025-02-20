@@ -6,3 +6,22 @@
 3. [正则匹配](https://leetcode.cn/problems/regular-expression-matching/description/) 恭喜成功入选 [[Hard]] , 有意思的一道题目,感觉和编辑距离问题类似
 
 # 2.20
+1. [字符串转换整数(atoi)](https://leetcode.cn/problems/string-to-integer-atoi/description/)  模拟题目,没什么意思
+2. [最接近的三数之和](https://leetcode.cn/problems/3sum-closest/description/) 排序 + 三指针,和三数之和一模一样,甚至更简单
+3. [两数相除](https://leetcode.cn/problems/divide-two-integers/description/) 算是思路惊奇的一道题目,类似于不断二分,核心代码如下:
+```c++
+long div(long a , long b) {
+	if(a < b) return 0;
+	long tb = b;
+	long count = 1;
+	while((tb + tb) <= a) {
+		count = count + count;
+		tb = tb + tb;_	
+	}
+	return count + div(a - tb , b);
+}
+```
+注意到最后一句话等效于:
+$$
+k + \frac{a - kb}{b} = \frac{a}{b}
+$$
