@@ -70,3 +70,9 @@ return (m + n) % 2 == 0 ? (max1 + min2) / 2 : max1;
 第二种情况不匹配但是, `p[j - 1] == *` , 那么又可以分为两种情况讨论,图解如下:
 
 ![[Pasted image 20250219164650.png]]
+# 4. 串联所有单词的子串
+> 滑动窗口问题,这里是定长的滑动窗口,类似于 [找到所有字母异位词语](https://leetcode.cn/problems/find-all-anagrams-in-a-string/)
+
+区别就是那一道题目是非定长滑动窗口,这一道题目是定长滑动窗口,关键在与窗口的划分,利用哈希表(`std::pmr::unordered_map`)统计词频率即可,图解如下:
+![[Pasted image 20250221170424.png]]
+

@@ -25,3 +25,7 @@ long div(long a , long b) {
 $$
 k + \frac{a - kb}{b} = \frac{a}{b}
 $$
+# 2.21 
+1. [有效的数独](https://leetcode.cn/problems/valid-sudoku/description/) 简单模拟 + 哈希 , 没有什么好说的
+2. [外观数列](https://leetcode.cn/problems/count-and-say/description/) 简单,没有什么好说的
+3. [串联字符串所有单词的子串](https://leetcode.cn/problems/substring-with-concatenation-of-all-words/description/) 入选 [[Hard]]  
