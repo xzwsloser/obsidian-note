@@ -9,3 +9,10 @@ sudo docker run -d \
 -v /home/loser/project/Hmdp/Hmdp-java/hmdp/nginx-1.18.0/html:/usr/share/nginx/html \
 nginx
 ```
+- `mysql`
+```shell
+sudo docker run --name my-mysql \
+-e MYSQL_ROOT_PASSWORD=123456 \ 
+-p 3306:3306  \
+-d mysql
+```
