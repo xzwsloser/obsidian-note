@@ -16,3 +16,12 @@ sudo docker run --name my-mysql \
 -p 3306:3306  \
 -d mysql
 ```
+- `redis`
+```shell
+docker run -d --name my-redis \
+  -p 6379:6379 \
+  -v /opt/redis/data:/data \
+  -v /opt/redis/conf/redis.conf:/etc/redis/redis.conf \
+  redis:latest \
+  redis-server /etc/redis/redis.conf
+```
