@@ -24,3 +24,21 @@ docker run -d --name my-redis \
   redis:latest \
   redis-server /etc/redis/redis.conf
 ```
+- `zookeeper`
+```shell
+sudo docker run -d --name my-zookeeper \
+-p 2181:2181 \
+-v /etc/localtime:/etc/localtime \
+wurstmeister/zookeeper
+```
+- `kafka`:
+```shell
+sudo docker run  -d --name my-kafka \
+-p 9092:9092 \
+-e KAFKA_BROKER_ID=0 \
+-e KAFKA_ZOOKEEPER_CONNECT=127.0.0.1:2181 \
+-e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092 \
+-e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092 \
+-t wurstmeister/kafka
+```
+
