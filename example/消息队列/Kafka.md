@@ -40,6 +40,9 @@ sudo ./kafka-server-start.sh ../config/kraft/server.properties
 
 - 基于 `Docker` 部署 `Kafka`
 参考 [[docker]]
+
+- https://blog.csdn.net/m0_64210833/article/details/134199061
+
 # Kafka的基本使用
 
 这一个部分参考 `Kafka`官方文档,培训班的视频真的是太拖泥带水了 ...

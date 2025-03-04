@@ -31,14 +31,13 @@ sudo docker run -d --name my-zookeeper \
 -v /etc/localtime:/etc/localtime \
 wurstmeister/zookeeper
 ```
-- `kafka`:
+- `kafka`
 ```shell
-sudo docker run  -d --name my-kafka \
+sudo docker run -d --name kafka \
 -p 9092:9092 \
--e KAFKA_BROKER_ID=0 \
--e KAFKA_ZOOKEEPER_CONNECT=127.0.0.1:2181 \
--e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092 \
--e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092 \
--t wurstmeister/kafka
+--link zookeeper:zookeeper \
+--env KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181 \
+--env KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092 \
+--env KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092 \
+--env KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 \ wurstmeister/kafka
 ```
-
