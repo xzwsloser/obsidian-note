@@ -101,3 +101,6 @@ sudo ./kafka-server-start.sh ../config/kraft/server.properties
 ```
 `> bin``/kafka-console-consumer``.sh --bootstrap-server localhost:9092 --topic` `test` `--from-beginning`
 ```
+
+## go操作 kafka
+
