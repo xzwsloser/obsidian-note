@@ -104,3 +104,4 @@ sudo ./kafka-server-start.sh ../config/kraft/server.properties
 
 ## go操作 kafka
 
+- 直接参考: https://www.liwenzhou.com/posts/Go/kafka-go/ 就可以了,重点就是 `Reader` 和 `Writer` 的使用,以及消息的发送和读取方式等
