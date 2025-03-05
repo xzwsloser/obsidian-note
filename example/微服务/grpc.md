@@ -24,3 +24,123 @@
 - 通信协议：rpc可以自定义协议，而restful是统一的http协议
 - 传输协议：在rpc中传输的协议可以用二进制性能消耗低，而restful是json字符串
 ## net/rpc 实践
+这里考虑利用 `net/rpc` 实现 `rpc` 通信,另外注意到 `go mod` 的作用就是依赖管理,并且 `package` 后面的名称不一定就是包名,需要加上路径
+- `server`:
+```go
+package main
+
+import (
+	"errors"
+	"log"
+	"net"
+	"net/rpc"
+)
+
+type (
+	GetUserReq struct {
+		Id int `json:"id"`
+	}
+
+	GetUserResp struct {
+		Id    int    `json:"id"`
+		Name  string `json:"name"`
+		Phone string `json:"phone"`
+		Age   int    `json:"age"`
+	}
+)
+
+var userMap map[int]*User = map[int]*User{
+	1: &User{
+		Id:    1,
+		Name:  "张三",
+		Phone: "110",
+		Age:   20,
+	},
+}
+
+// 定义服务
+type UserServer struct {
+}
+
+func (*UserServer) GetUserById(req GetUserReq, resp *GetUserResp) error {
+	if u, ok := userMap[req.Id]; ok {
+		*resp = GetUserResp{
+			Id:    u.Id,
+			Name:  u.Name,
+			Phone: u.Phone,
+			Age:   u.Age,
+		}
+		return nil
+	}
+	return errors.New("没有找到用户名...")
+}
+
+func main() {
+	// 创建 rpc 服务
+	userServer := new(UserServer)
+	// 注册服务到 rpc 中
+	rpc.Register(userServer)
+	// 监听对应的端口
+	listener, err := net.Listen("tcp", ":9999")
+
+	if err != nil {
+		log.Fatal("开启 rpc 失败...")
+	}
+
+	for {
+		conn, err := listener.Accept()
+		if err != nil {
+			log.Println("监听失败...")
+			continue
+		}
+
+		rpc.ServeConn(conn)
+	}
+
+}
+```
+
+- `client`:
+```go
+package main
+
+import (
+	"log"
+	"net/rpc"
+)
+
+type (
+	GetUserReq struct {
+		Id int `json:"id"`
+	}
+
+	GetUserResp struct {
+		Id    int    `json:"id"`
+		Name  string `json:"name"`
+		Phone string `json:"phone"`
+		Age   int    `json:"age"`
+	}
+)
+
+func main() {
+	// 1. 连接到服务器端
+	client, err := rpc.Dial("tcp", "localhost:9999")
+	if err != nil {
+		log.Fatal("连接服务器端失败...")
+	}
+	defer client.Close()
+	// 2. 调用服务
+	req := GetUserReq{
+		Id: 2,
+	}
+
+	var resp GetUserResp
+
+	err = client.Call("UserServer.GetUserById", req, &resp)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	log.Println(resp)
+}
+```
