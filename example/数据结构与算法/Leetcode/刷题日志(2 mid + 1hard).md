@@ -82,3 +82,40 @@ while(n != 0) {
 1. [分割回文子串IV](https://leetcode.cn/problems/palindrome-partitioning-iv/description/?envType=daily-question&envId=2025-03-04) 参考上面一道题目,感觉上面一道题目才是最难的,并且注意到可以使用`dp` 判断区间内的回文串
 2. [文本对齐](https://leetcode.cn/problems/text-justification/solutions/987057/gong-shui-san-xie-zi-fu-chuan-mo-ni-by-a-s3v7/?envType=study-plan-v2&envId=top-interview-150)情况很多的模拟题目,纯纯恶心人,`40min AC` ,`corner case` 太多了,难点在于空格的分配
 3. [字符匹配](https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/description/?envType=study-plan-v2&envId=top-interview-150) [[KMP算法]] 没什么好说的
+# 3.5
+主要复习了一下滑动窗口的题目,以及做了每日一题(比前面几天的简单不少)
+
+滑动窗口分为三类问题,遇到具体问题需要具体考虑:
+- 求解 "最小,最短": 参考面试经典滑动窗口中的 1 4 题目
+- 求解满足特定条件的位置: 3 
+- 求解 "最长"
+
+下面总结三种题目的解题方法:
+- 最小,最短类题目,参考如下模板即可:
+```c++
+int left = 0;
+for(int right = 0 ; right < s.size() ; right ++) {
+	 把 right 位置对应的元素加入到滑动窗口中
+	 while(题目中的条件) {
+		 记录最大值 比如 ans = max(ans , right - left + 1)
+		left 位置的值离开滑动窗口
+		left ++
+	 }
+}
+```
+- 最长类题目: 一般是判断条件是否满足,如果条件不满足移动指针让条件满足即可
+```c++
+int left = 0;
+for(int right = 0 ; right < s.size() ; right ++) {
+	if(满足条件) {
+		加入元素
+	} else {
+		while(!条件) {
+			移除 left 元素
+			left ++
+		}
+	}
+	收集结果
+}
+```
+- 定长窗口类问题: 感觉没有什么固定的解法,和上面差不多,只是需要注意到每一次移除的元素和加入的元素个数一样即可,参考 [串联所有单词的子串](https://leetcode.cn/problems/minimum-window-substring/description/?envType=study-plan-v2&envId=top-interview-150)
