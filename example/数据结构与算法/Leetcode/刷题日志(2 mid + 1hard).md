@@ -119,3 +119,5 @@ for(int right = 0 ; right < s.size() ; right ++) {
 }
 ```
 - 定长窗口类问题: 感觉没有什么固定的解法,和上面差不多,只是需要注意到每一次移除的元素和加入的元素个数一样即可,参考 [串联所有单词的子串](https://leetcode.cn/problems/minimum-window-substring/description/?envType=study-plan-v2&envId=top-interview-150)
+# 3.6 
+1. [统计美丽子数组树目](https://leetcode.cn/problems/count-the-number-of-beautiful-subarrays/?envType=daily-question&envId=2025-03-06) 很考察直觉的一个题目,注意到其实就是求解子数组中的所有数组异或为 `0` 即可,看到了子数组,所以想到前缀表的做法,进行数学推导,可以发现 `a ^ b ^ c ^ d = e` 并且 `a ^ b = f` , 则有 `a ^ b ^ c ^ d ^ (a ^ b) = 0 ^ c ^ d = e ^ f` , 所以只需要 `prefix[i] ^ prefix[j] == 0` ,那么 `i - j` 之间的数组就是满足要求的位置,同时注意到如果两个数组异或为 `0` ,那么说明两个数字相等,所以想到使用哈希表来查询,时间复杂度为 `O(N)` 
