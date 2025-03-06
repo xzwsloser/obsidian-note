@@ -413,5 +413,89 @@ func _User_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 ```
-可以看到底层其实存在一个拦截器,会首先调用拦截之后才会调用封装的`handler`
+可以看到底层其实存在一个拦截器,会首先调用拦截之后才会调用封装的`handler` 
+### 拦截器的底层实现
+首先进入到 `NewServer`方法,查看该方法的底层操作,该方法的底层如下(注意到看源代码的核心就是记住自己的目标,我们这里主要是看拦截器的实现,所以只需要关注和拦截器相关的代码即可)
+```go
+func NewServer(opt ...ServerOption) *Server {
+	opts := defaultServerOptions
+	for _, o := range globalServerOptions {
+		o.apply(&opts)
+	}
+	for _, o := range opt {
+		o.apply(&opts)
+	}
+	s := &Server{
+		lis:      make(map[net.Listener]bool),
+		opts:     opts,
+		conns:    make(map[string]map[transport.ServerTransport]bool),
+		services: make(map[string]*serviceInfo),
+		quit:     grpcsync.NewEvent(),
+		done:     grpcsync.NewEvent(),
+		channelz: channelz.RegisterServer(""),
+	}
+	chainUnaryServerInterceptors(s)
+	chainStreamServerInterceptors(s)
+	s.cv = sync.NewCond(&s.mu)
+	if EnableTracing {
+		_, file, line, _ := runtime.Caller(1)
+		s.events = newTraceEventLog("grpc.Server", fmt.Sprintf("%s:%d", file, line))
+	}
+
+	if s.opts.numServerWorkers > 0 {
+		s.initServerWorkers()
+	}
+
+	channelz.Info(logger, s.channelz, "Server created")
+	return s
+}
+```
+这里的`opts`可以理解为服务器的配置信息,重点关注到 `chainUnaryServerInterceptors`方法,该方法的实现如下:
+```go
+func chainUnaryServerInterceptors(s *Server) {
+	// Prepend opts.unaryInt to the chaining interceptors if it exists, since unaryInt will
+	// be executed before any other chained interceptors.
+	interceptors := s.opts.chainUnaryInts
+	if s.opts.unaryInt != nil {
+		interceptors = append([]UnaryServerInterceptor{s.opts.unaryInt}, s.opts.chainUnaryInts...)
+	}
+
+	var chainedInt UnaryServerInterceptor
+	if len(interceptors) == 0 {
+		chainedInt = nil
+	} else if len(interceptors) == 1 {
+		chainedInt = interceptors[0]
+	} else {
+		chainedInt = chainUnaryInterceptors(interceptors)
+	}
+
+	s.opts.unaryInt = chainedInt
+}
+```
+注意到这里比较误导人的一个点就是这里的`s.opts.unaryInt`类型其实是`UnaryServerInterceptor`类型,而不是 `int`类型,其中`chainUnaryInterceptor`函数很有趣,实现方式如下:
+```go
+func chainUnaryInterceptors(interceptors []UnaryServerInterceptor) UnaryServerInterceptor {
+	return func(ctx context.Context, req any, info *UnaryServerInfo, handler UnaryHandler) (any, error) {
+		return interceptors[0](ctx, req, info, getChainUnaryHandler(interceptors, 0, info, handler))
+	}
+}
+
+func getChainUnaryHandler(interceptors []UnaryServerInterceptor, curr int, info *UnaryServerInfo, finalHandler UnaryHandler) UnaryHandler {
+	if curr == len(interceptors)-1 {
+		return finalHandler
+	}
+	return func(ctx context.Context, req any) (any, error) {
+		return interceptors[curr+1](ctx, req, info, getChainUnaryHandler(interceptors, curr+1, info, finalHandler))
+	}
+}
+```
+可以发现这一个函数其是返回了一个闭包(注意到只有大于或者等于1个函数才会调用这一个函数,否则直接赋值即可),假设有两个函数,可以发现其实这一个函数返回了一个闭包,也就是这一个函数调用的时候会触发底层的`getChainUnaryHandler`函数,并且递归调用自己,直到没有拦截器就会返回原来的函数,这是一个闭包函数,非常奇特,理解这一个函数的调用非常困难
+
+假设有两个`Interceptors`,分别为 `I1` 和 `I2` , 首先调用`interceptor`的时候会进入到上面的方法,上面的方法会首先调用 `getChaninUnaryHandler`方法,调用完毕之后最终会返回 **interceptor\[0]\(ctx , req , info , interceptor\[curr+1\](ctx , req , info , handler)  其实可以无限嵌套,所以在 `I1` 中开始执行 handler 方法也就是这里的 interceptor\[curr+1\](ctx , req , info , handler) 方法,所以开始执行第二个拦截器,第二个拦截器执行完前置语句之后开始执行 hanlder 方法,此时才是真正的 handler 方法,也就是 _xxx方法,这一个方法的最后最终不断向上返回也就形成了调度链** 这就是底层的核心原理,很值得学习
+
+## grpc 客户端发送请求实现分析
+
+`tm`这些老师讲解源代码真的是像怕人听懂了一样,直接一目十行,也没有目标,对于复杂的过程也就一笔带过,最后直接总结流程,把计算机学成了文科!!!
+
+注意到也就是初始化了一系列东西,最后调用了底层的`Ivoke`方法即可,其他的看视频文档即可,底层的实现还是利用到了反射,各种组件太复杂了
 
