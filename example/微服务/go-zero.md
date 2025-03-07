@@ -25,7 +25,8 @@ goctl api new demo  # 生成 api 服务
 goctl rpc new demo  # 生成 rpc 服务
 ```
 
-### 搭建rpc服务
+### go-zero服务搭建
+#### 搭建rpc服务
 但是一般的开发流程需要自己写好 `xxx.proto` 文件,之后在 `xxx.proto` 命令中执行命令如下:
 ```shell
 goctl rpc protoc user.proto --go_out=. --go-grpc_out=. -zrpc_out=.
@@ -52,3 +53,69 @@ goctl rpc protoc user.proto --go_out=. --go-grpc_out=. -zrpc_out=.
 ├── user.go
 └── user.proto
 ```
+说明一下目录结果,其中 `user.yaml` 表示配置文件,其中可以配置监听端口信息等,`config` 包下为配置文件,注意到其中的 `Config` 结构体中的成员必须和配置文件中的成员名称一样,类型为 `XxxxConfig`, `logic` 为逻辑层代码,这也是我们唯一一个需要修改的位置,在这一个位置,我们需要实现接口规定的方法的主要业务逻辑, `server`包也就是 `server` 层,其中记录这用户服务信息,调用了 `logic` 层中的方法处理业务, 最后的 `svc` 可以理解为 `context` 包,使用 `context.Context`记录服务信息用于传递各种参数,类似于 `gin.Context`,最后`user.go` 作为入口文件用于启动整个服务
+
+#### 搭建 Api 服务
+
+感觉 `go-zero` 的开箱即用程度甚至高于 `SpringBoot`, 首先编写 `user.api` 文件来规定接口以及传输数据(如果接口过多是否会产生响应的未见过多),注意`api` 文件的语法,一个例子如下:
+```go
+// 指定语法版本
+syntax = "v1"
+
+// 服务接口描述
+info (
+	title:   "用户api接口"
+	desc:    "集成用户服务业务"
+	author:  "loser"
+	version: "v1"
+)
+
+// 请求参数结构
+type (
+	UserReq {
+		Id string `json:"id"`
+	}
+	UserResp {
+		Id    string `json:"id"`
+		Name  string `json:"name"`
+		Phone string `json:"phone"`
+	}
+)
+
+// 定义 http 服务
+service User {
+	// 定义 http.Handler
+	@handler user
+	get /user (UserReq) returns (UserResp)
+}
+```
+其中需要定义使用的`api` 语法版本,服务接口描述以及请求参数接口和`http` 服务接口,感觉不太方便
+
+之后就可以使用 `goctl` 生成对应的工程文件了,生成命令如下:
+```shell
+$ goctl api go -api user.api -dir . -style gozero
+```
+
+最终生成的工程目录结构如下:
+```text
+.
+├── etc
+│   └── user.yaml
+├── internal
+│   ├── config
+│   │   └── config.go
+│   ├── handler
+│   │   ├── routes.go
+│   │   └── userhandler.go
+│   ├── logic
+│   │   └── userlogic.go
+│   ├── svc
+│   │   └── servicecontext.go
+│   └── types
+│       └── types.go
+├── user.api
+└── user.go
+```
+其中 `etc` 表示配置文件, `config` 表示配置文件同上,`handler` 定义了接口文件,相当于`controller`层,其中定义了各种接口以及控制层处理逻辑,`logic` 也是一样的,核心逻辑需要放在这里面,`svc`: 同 `rpc` 项目, `types`: 记录各种需要使用到的数据结构
+
+### go-zero中间件与数据库读写
