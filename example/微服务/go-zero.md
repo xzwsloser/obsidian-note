@@ -24,6 +24,8 @@
 goctl api new demo  # 生成 api 服务
 goctl rpc new demo  # 生成 rpc 服务
 ```
+
+### 搭建rpc服务
 但是一般的开发流程需要自己写好 `xxx.proto` 文件,之后在 `xxx.proto` 命令中执行命令如下:
 ```shell
 goctl rpc protoc user.proto --go_out=. --go-grpc_out=. -zrpc_out=.
