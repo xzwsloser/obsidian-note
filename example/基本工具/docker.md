@@ -1,5 +1,5 @@
 > 记录构建各种容器的命令:
-
+# 构建容器
 - `nginx`
 ```shell
 sudo docker run -d  --name my-nginx \
@@ -41,3 +41,32 @@ sudo docker run -d --name kafka \
 --env KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092 \
 --env KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 \ wurstmeister/kafka
 ```
+## 容器操作
+- 删除容器
+```shell
+sudo docker stop container | xargs sudo docker rm
+```
+- 利用 `Dockerfile`构建容器
+```shell
+sudo docker build -t imags:tags . # 指定 Dockerfile 所在的目录
+```
+
+## 网络操作
+- 创建网络名称并且指定子网掩码:
+```shell
+$ docker network create --subnet 172.0.0.0/24 net-test
+```
+- 查看网络段详情:
+```shell
+$ docker network inspect net-test
+```
+- 删除网络段
+```shell
+$ docker network rm net-test
+```
+- 给容器分配网络段
+```shell
+$ docker run --name go-net-test --ip 172.0.0.2 --net net-test -d go
+```
+
+
