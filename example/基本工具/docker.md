@@ -72,3 +72,13 @@ $ docker run --name go-net-test --ip 172.0.0.2 --net net-test -d go
 ```shell
 $ docker logs -f container-name
 ```
+## docker-compose
+- 启动容器
+```shell
+sudo docker-compose up -d # 根据配置文件内容开启容器
+```
+- 停止服务:
+```shell
+sudo docker-compose down
+```
+参考: https://juejin.cn/post/7042663735156015140
