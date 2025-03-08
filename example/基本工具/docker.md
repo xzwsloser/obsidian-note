@@ -68,5 +68,7 @@ $ docker network rm net-test
 ```shell
 $ docker run --name go-net-test --ip 172.0.0.2 --net net-test -d go
 ```
-
-
+## 日志操作
+```shell
+$ docker logs -f container-name
+```
