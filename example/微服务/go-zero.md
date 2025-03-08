@@ -119,3 +119,161 @@ $ goctl api go -api user.api -dir . -style gozero
 其中 `etc` 表示配置文件, `config` 表示配置文件同上,`handler` 定义了接口文件,相当于`controller`层,其中定义了各种接口以及控制层处理逻辑,`logic` 也是一样的,核心逻辑需要放在这里面,`svc`: 同 `rpc` 项目, `types`: 记录各种需要使用到的数据结构
 
 ### go-zero中间件与数据库读写
+#### go-zero中的数据库配置
+
+首先需要创建一个 `sql` 文件,之后需要利用到 `goctl` 脚手架工具来生成 `mysql` 代码,生成命令如下:
+```shell
+$ goctl model mysql ddl -src="./*.sql" -dir="." -c
+```
+最后的 `-c` 选项表示是否使用缓存,最终生成的目录结构如下:
+```text
+.
+├── usermodel_gen.go
+├── usermodel.go
+├── user.sql
+└── vars.go
+```
+其中 `usermodel`中定义了创建 `UserModel` 对象的方法,也就是用于操作数据库对象的方法,其中包含各种 `CRUD` 的方法,`usermodel`方法中定义了`CRUD` 的接口,这一个接口由`UserModel`实现,实现了 `FindOne , Insert` 等方法
+
+之后如果需要使用到 `Mysql` 和 `Redis` 还是三步走:  编辑配置文件 --> 修改 `Config` 文件 --> 修改 `srv` 文件(也就是在上下文对象中添加需要使用到的对象,比如 `Model`对象,注意到配置文件读取的规则,一般都是时用一个同名的结构体来收集信息) --> 最终使用即可
+
+配置文件的格式如下:
+```yaml
+Name: user.rpc
+ListenOn: 0.0.0.0:8080
+Etcd:
+  Hosts:
+  - 127.0.0.1:2379
+  Key: user.rpc
+
+# 配置 Mysql 连接信息
+Mysql:
+  DataSource: root:123456@tcp(127.0.0.1:3306)/user?charset=utf8mb4
+
+
+# 配置 Redis 连接信息
+Cache:
+  - Host: 127.0.0.1:6379
+    Type: node
+    Pass: "123456"
+```
+
+最终就可以在项目中使用了,使用方式如下:
+```go
+func (l *CreateUserLogic) CreateUser(in *user.UserInfo) (*user.Resp, error) {
+	// todo: add your logic here and delete this line
+	_, err := l.svcCtx.UserModel.Insert(l.ctx, &model.User{
+		Id:       in.Id,
+		Name:     sql.NullString{String: in.Name},
+		Password: in.PassWord,
+	})
+
+	if err != nil {
+		return &user.Resp{}, err
+	}
+	return &user.Resp{}, nil
+}
+```
+
+#### go-zero中的中间件配置
+首先需要在 `service` 中使用 `@server` 指定使用到的中间件信息,语法如下:
+```go
+// 指定语法版本
+syntax = "v1"
+
+// 服务接口描述
+info (
+	title:   "用户api接口"
+	desc:    "集成用户服务业务"
+	author:  "loser"
+	version: "v1"
+)
+
+// 请求参数结构
+type (
+	UserReq {
+		Id string `json:"id"`
+	}
+	UserResp {
+		Id    string `json:"id"`
+		Name  string `json:"name"`
+		Phone string `json:"phone"`
+	}
+)
+
+// 定义 http 服务
+service User {
+	// 定义 http.Handler
+	@handler user
+	get /user (UserReq) returns (UserResp)
+}
+
+// 定义 http 服务并且使用中间件
+@server (
+	middleware: LoginVerifation
+)
+service User {
+	@handler userinfo
+	post /userinfo (UserReq) returns (UserResp)
+}
+```
+之后使用命令生成`api` 代码:
+```shell
+$ goctl api go -api user.api -dir . -style gozero
+```
+最后项目结构如下:
+```text
+.
+├── etc
+│   └── user.yaml
+├── internal
+│   ├── config
+│   │   └── config.go
+│   ├── handler
+│   │   ├── routes.go
+│   │   ├── userhandler.go
+│   │   └── userinfohandler.go
+│   ├── logic
+│   │   ├── userinfologic.go
+│   │   └── userlogic.go
+│   ├── middleware
+│   │   └── loginverifationmiddleware.go
+│   ├── svc
+│   │   └── servicecontext.go
+│   └── types
+│       └── types.go
+├── user.api
+└── user.go
+```
+接下来需要在`middleware`中填写对应的逻辑代码,逻辑代码如下:
+```go
+func (m *LoginVerifationMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// TODO generate middleware implement function, delete after code implementation
+		if r.Header.Get("token") == "123456" {
+			next(w, r)
+			return
+		}
+		// Passthrough to next handler if need
+		w.Write([]byte("...鉴权失败..."))
+		return
+	}
+}
+```
+最后需要在 `srv`中配置中间件:
+```go
+type ServiceContext struct {
+	Config          config.Config
+	UserClient      userclient.User
+	LoginVerifation rest.Middleware
+}
+
+func NewServiceContext(c config.Config) *ServiceContext {
+	return &ServiceContext{
+		Config:     c,
+		UserClient: userclient.NewUser(zrpc.MustNewClient(c.UserRPC)),
+		// 注意到这里需要传递一个函数,函数参数需要时 http.HandleFunc,相当于 gin.Context
+		LoginVerifation: middleware.NewLoginVerifationMiddleware().Handle,
+	}
+}
+```
