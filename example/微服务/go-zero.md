@@ -277,3 +277,167 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	}
 }
 ```
+
+## go-zero底层逻辑
+### go-zero中的 rpc server 启动过程
+`rpc server` 部分的入口文件为 `xxx.go`,内容如下:
+```go
+func main() {
+	flag.Parse()
+
+	var c config.Config
+	conf.MustLoad(*configFile, &c)
+	ctx := svc.NewServiceContext(c)
+
+	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
+		user.RegisterUserServer(grpcServer, server.NewUserServer(ctx))
+
+		if c.Mode == service.DevMode || c.Mode == service.TestMode {
+			reflection.Register(grpcServer)
+		}
+	})
+
+	// 添加拦截器
+	interceptor := func(ctx context.Context, req any,
+		info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
+		fmt.Println("...开启服务...")
+		resp, err = handler(ctx, req)
+		fmt.Println("...服务结束...")
+		return
+	}
+
+	s.AddUnaryInterceptors(interceptor)
+
+	defer s.Stop()
+
+	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
+	s.Start()
+}
+```
+前面的都是用于加载配置文件的,配置文件的逻辑为   填写配置文件 --> 在 `config.go`中配置相应的配置信息 ---> 在 `xxxContext.go`中根据配置信息创建自己需要的对象比如 `mysql` 操作对象或者`redis` 客户端等等 --> 最后在 `xxxMethodLogic.go` 中使用 `xxxContext` 中提供的对象进行各种操作即可
+
+上面代码的核心就是 `zrpc.MustNewServer`,可以看一下这一个函数的实现(这一个函数的底层调用了`NewServer`,所以只需要关注 `NewServer` 的实现,实现方式如下):
+```go
+func NewServer(c RpcServerConf, register internal.RegisterFn) (*RpcServer, error) {
+	var err error
+	if err = c.Validate(); err != nil {
+		return nil, err
+	}
+
+	var server internal.Server
+	metrics := stat.NewMetrics(c.ListenOn)
+	serverOptions := []internal.ServerOption{
+		internal.WithRpcHealth(c.Health),
+	}
+
+	if c.HasEtcd() {
+		server, err = internal.NewRpcPubServer(c.Etcd, c.ListenOn, serverOptions...)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		server = internal.NewRpcServer(c.ListenOn, serverOptions...)
+	}
+
+	server.SetName(c.Name)
+	metrics.SetName(c.Name)
+	setupStreamInterceptors(server, c)
+	setupUnaryInterceptors(server, c, metrics)
+	if err = setupAuthInterceptors(server, c); err != nil {
+		return nil, err
+	}
+
+	rpcServer := &RpcServer{
+		server:   server,
+		register: register,
+	}
+	if err = c.SetUp(); err != nil {
+		return nil, err
+	}
+
+	return rpcServer, nil
+}
+```
+前面表示创建监听对象,也就是创建 `Server` 的过程,注意到 `Server` 是一个接口,接口的实现包含 `RpcServer` 和 `KeepAliveServer`,不同之处在于是否使用到 `etcd` 作为注册中心,最后返回一个 `RpcServer` 对象,并且添加各种拦截器
+### go-zero中的client调度过程
+这里我们抛开`grpc` 本身的逻辑,只看`go-zero` 做的扩展,可以发现`go-zero`生成了 `xxxcilent.go` 文件来提供客户端连接,内容如下:
+```go
+type (
+	GetUserReq  = user.GetUserReq
+	GetUserResp = user.GetUserResp
+	Resp        = user.Resp
+	UserInfo    = user.UserInfo
+
+	User interface {
+		GetUser(ctx context.Context, in *GetUserReq, opts ...grpc.CallOption) (*GetUserResp, error)
+		CreateUser(ctx context.Context, in *UserInfo, opts ...grpc.CallOption) (*Resp, error)
+	}
+
+	defaultUser struct {
+		cli zrpc.Client
+	}
+)
+
+func NewUser(cli zrpc.Client) User {
+	return &defaultUser{
+		cli: cli,
+	}
+}
+
+func (m *defaultUser) GetUser(ctx context.Context, in *GetUserReq, opts ...grpc.CallOption) (*GetUserResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.GetUser(ctx, in, opts...)
+}
+
+func (m *defaultUser) CreateUser(ctx context.Context, in *UserInfo, opts ...grpc.CallOption) (*Resp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.CreateUser(ctx, in, opts...)
+}
+```
+可以发现其实就是把在用户和`grpc`生成的代码之间加了一层中间层,并且实现了接口的方法,具体创建过程需要看客户端,还是本者 配置文件 -> `go` 对象的流程,可以在 `xxxContext.go` 中看到`xxxClient` 的创建过程:
+```go
+func NewServiceContext(c config.Config) *ServiceContext {
+	return &ServiceContext{
+		Config:     c,
+		UserClient: userclient.NewUser(zrpc.MustNewClient(c.UserRPC)),
+		// 注意到这里需要传递一个函数,函数参数需要时 http.HandleFunc,相当于 gin.Context
+		LoginVerifation: middleware.NewLoginVerifationMiddleware().Handle,
+	}
+}
+```
+可以发现底层其实调用了`userClient.NewUser`(是否会产生耦合??? --- 不会,原因是实际项目开发中,客户端和服务器端都有一份 `proto` 文件,可以生成自己的 `xxxclient`) 方法,并且其中传递的参数为 `zrpc.MustNewClient`,返回了一个 `client` 对象,这一个方法中没有什么核心的业务逻辑,也就是创建各种对象,并且连接到 `grpc`的服务器端
+### go-zero中api服务启动过程
+`api` 服务启动文件如下:
+```go
+func main() {
+	flag.Parse()
+
+	var c config.Config
+	conf.MustLoad(*configFile, &c)
+
+	server := rest.MustNewServer(c.RestConf)
+	defer server.Stop()
+
+	ctx := svc.NewServiceContext(c)
+	handler.RegisterHandlers(server, ctx)
+
+	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
+	server.Start()
+}
+```
+流程大体没有看懂: 大概是 ---> 创建服务器  ---> 注册路由 ---> 启动服务器,路由使用字典树管理,执行流程如下:
+![[Pasted image 20250308105035.png]]
+
+
+### go-zero语法信息
+参考官方网站,中文文档,很友好: https://go-zero.dev/
+#### go-zero中集成gorm
+两种方法:
+1. 在 `srv` 中加入 `gorm.DB`对象,并且利用这一个对象进行业务逻辑处理
+2. 在`model`层引入对象进行业务逻辑处理(底层重写相关方法)
+
+我感觉甚至可以不使用生成 `mysql` 代码的形式,直接使用 `gorm` 即可,但是依赖于配置文件
+
+
+
+
