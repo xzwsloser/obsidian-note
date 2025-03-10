@@ -124,3 +124,8 @@ for(int right = 0 ; right < s.size() ; right ++) {
 # 3.7
 1. [美丽数组的个数](https://leetcode.cn/problems/the-number-of-beautiful-subsets/description/?envType=daily-question&envId=2025-03-07) 如果使用回溯是一道 `middle` , 如果利用回溯算法,就是 `hard`
 之后刷了一下面试经典 `150`题中的矩阵题目
+# 3.10
+1. [生命游戏](https://leetcode.cn/problems/game-of-life/description/?envType=study-plan-v2&envId=top-interview-150) 对于数组进行标记即可,比如死细胞可以标记为负数,或者使用 `int` 的倒数第二个字节存储死亡或者存活信息即可
+2. [单词规律](https://leetcode.cn/problems/word-pattern/description/?envType=study-plan-v2&envId=top-interview-150) 简单题搞半天,实际上就是一个双射关系,分为两个单射即可,遍历两次即可,当然也可以遍历一次
+刷了原题  ......
+
