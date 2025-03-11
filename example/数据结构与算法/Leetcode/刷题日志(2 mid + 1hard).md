@@ -128,4 +128,9 @@ for(int right = 0 ; right < s.size() ; right ++) {
 1. [生命游戏](https://leetcode.cn/problems/game-of-life/description/?envType=study-plan-v2&envId=top-interview-150) 对于数组进行标记即可,比如死细胞可以标记为负数,或者使用 `int` 的倒数第二个字节存储死亡或者存活信息即可
 2. [单词规律](https://leetcode.cn/problems/word-pattern/description/?envType=study-plan-v2&envId=top-interview-150) 简单题搞半天,实际上就是一个双射关系,分为两个单射即可,遍历两次即可,当然也可以遍历一次
 刷了原题  ......
+# 3.11
+1. [数组美丽值求和](https://leetcode.cn/problems/sum-of-beauty-in-the-array/description/?envType=daily-question&envId=2025-03-11) 也就是右边没有比当前元素小的元素,左边没有比当前元素大的元素,找到后面元素的最小值即可,同时可以在记录答案的同时寻找前面元素的最大值,也可使用单调栈
+2. [寻找目标值](https://leetcode.cn/problems/er-wei-shu-zu-zhong-de-cha-zhao-lcof/description/) 从右上角开始即可
+3. [锯齿状遍历](https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/description/) 层序遍历变种,不用多说了
+
 
