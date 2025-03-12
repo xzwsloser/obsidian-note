@@ -133,4 +133,22 @@ for(int right = 0 ; right < s.size() ; right ++) {
 2. [寻找目标值](https://leetcode.cn/problems/er-wei-shu-zu-zhong-de-cha-zhao-lcof/description/) 从右上角开始即可
 3. [锯齿状遍历](https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/description/) 层序遍历变种,不用多说了
 
+# 3.12 
+1. [元音辅音字符串计数 I](https://leetcode.cn/problems/count-of-substrings-containing-every-vowel-and-k-consonants-i/)  很有意思的一个滑动窗口问题,看下面一个引导(灵神yyds)
+```text
+问：某班有 10 个人至少 20 岁，3 个人至少 21 岁，那么恰好 20 岁的人有多少个？
 
+答：「至少 20 岁」可以分成「恰好 20 岁」和「至少 21 岁」，所以「至少 20 岁」的人数减去「至少 21 岁」的人数，就是「恰好 20 岁」的人数，即 10−3=7。
+
+作者：灵茶山艾府
+链接：https://leetcode.cn/problems/count-of-substrings-containing-every-vowel-and-k-consonants-ii/solutions/2934309/liang-ci-hua-chuang-pythonjavacgo-by-end-2lpz/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+```
+
+
+所以这一个题目只需要分为至少 `k`个辅音 和 至少 `k + 1` 个辅音,最终的结果就是:
+```c++
+count(word , k) - count(word , k + 1);
+```
+这就是恰好类题目的解法
