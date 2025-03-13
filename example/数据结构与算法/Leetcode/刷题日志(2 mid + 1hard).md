@@ -154,3 +154,9 @@ count(word , k) - count(word , k + 1);
 这就是恰好类题目的解法
 2. [简化路径](https://leetcode.cn/problems/simplify-path/description/?envType=study-plan-v2&envId=top-interview-150) 利用两个指针 `left` 和 `right` 分别控制字符的开始和结束位置即可,如果是 `..` 弹出之前的,如果是 `.` 直接跳过即可
 3. [IPO](https://leetcode.cn/problems/ipo/solutions/985099/gong-shui-san-xie-noxiang-xin-ke-xue-xi-fk1ra/?envType=study-plan-v2&envId=top-interview-150)思路比较简单,也就是每一次只需要把需要的利润小于 `w` 对应的利润加入到堆中,每一次取堆中最的元素即可,但是写出来还是比较难的,这里可以首先把成本以及利润进行排序操作 
+# 3.13
+1. 每日一题: 和昨天一样
+2. [分隔链表](https://leetcode.cn/problems/partition-list/description/?envType=study-plan-v2&envId=top-interview-150) 需要一次遍历并且使用原地算法 , 使用双指针,但是注意首先需要把 pre 移动到第一个满足 pre -> next -> val < x 的位置,cur移动到 pre -> next 的位置,并且注意循环中使用 while 防止 cur 移动之后忽略当前节点
+3. [二叉树中序遍历迭代器](https://leetcode.cn/problems/binary-search-tree-iterator/description/?envType=study-plan-v2&envId=top-interview-150) 就是把遍历的过程拆分为 `next` 和 `hasnext` 两个函数,也就是分别使用 `while` 中的条件替代 `hasnext` , 使用 `next` 中的代码替换 循环体里面的代码即可,中序遍历的过程如下:
+![[Pasted image 20250313194259.png]]
+代码实现: https://leetcode.cn/problems/binary-tree-inorder-traversal/
