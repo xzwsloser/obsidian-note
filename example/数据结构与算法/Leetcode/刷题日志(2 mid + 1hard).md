@@ -160,3 +160,8 @@ count(word , k) - count(word , k + 1);
 3. [二叉树中序遍历迭代器](https://leetcode.cn/problems/binary-search-tree-iterator/description/?envType=study-plan-v2&envId=top-interview-150) 就是把遍历的过程拆分为 `next` 和 `hasnext` 两个函数,也就是分别使用 `while` 中的条件替代 `hasnext` , 使用 `next` 中的代码替换 循环体里面的代码即可,中序遍历的过程如下:
 ![[Pasted image 20250313194259.png]]
 代码实现: https://leetcode.cn/problems/binary-tree-inorder-traversal/
+# 3.14
+1. 每日一题: `easy` 不用说了
+2. [被围绕的区域](https://leetcode.cn/problems/surrounded-regions/description/?envType=study-plan-v2&envId=top-interview-150) 从边界开始遍历遍历到的位置标记为 `*` 即可
+3. [克隆图](https://leetcode.cn/problems/clone-graph/description/?envType=study-plan-v2&envId=top-interview-150) 类似于随机链表的复制,只需要在遍历的时候不断构建链表即可,注意在构建子节点之后需要把子结点加入到原来的父节点下面的集合中
+4. [基本计算器](https://leetcode.cn/problems/basic-calculator/description/?envType=study-plan-v2&envId=top-interview-150) `corner case`太多了,没有考虑清楚
