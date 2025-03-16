@@ -302,22 +302,72 @@ db.myCollection.findOneAndDelete(
 ```
 其中 `projection` 表示返回的字段
 
+###### 查询文档
+- **find()** 方法用于查询文档,查询文档的语句如下:
+```MongoDB
+db.<collection_name>.find(query , projection)
+```
+其中 **query** 表示查询的条件(默认为 `{}` , 表示匹配所有文档) , **projection** 表示返回结果中包含或者排除的字段,使用实例如下:
+```MongoDB
+db.data.find(
+	{ age: { $gt: 25 } },
+	{ name: 1 , age: 1 , _id: 0 }
+);
+```
+- **pretty()**  方法用于对于查询得到的数据进行格式话,语法格式如下(貌似没什么用):
+```MongoDB
+db.col.find().pretty()
+```
+- **findOne()** 用于查找集合中的单个文档,如果找到多个匹配的文档,只会返回第一个
+```MongoDB
+db.<collection_name>.findOne(query , projection)
+```
+参数的含义同上
+```MongoDB
+db.data.findOne(
+	{ name: "Jerry" },
+	{ name: 1 , age: 1 , _id: 0 , city: 1 }
+);
+```
+###### 高级查询方法
+1. **使用比较运算符号** ,比如 `$gt , $lt , $gte , $lte , $eq , $ne` 等运算符号,使用格式如下:
+```MongoDB
+db.data.find( { age: { $gte: 25 } })
+```
+2. **使用逻辑运算符号**, 比如 `$add` , `$or` , `$not` , `$nor` 等,使用实例如下:
+```MongoDB
+db.data.find({
+$and: [
+	  { age: { $gt: 25 } },
+	  { name: "Jerry" }
+]})
+```
+3. **使用正则表达式** : 直接使用正则表达时就可以了
+4. **投影**(也就是 `select` 返回的字段而已)
+5. **排序**, 这里可以使用到 `sort` 方法对于某一个字段进行排序
+```MongoDB
+db.mycollection().find().sort( { age: -1} );
+```
+6. **限定与跳过**: 使用到 `skip` 和 `limit` 方法,感觉和 `Java` 中的 `stream` 流太像了
+7. **条件的连接**, 始终记住每一个参数使用 `{}` 包裹,并且注意到第一个参数表示条件即可,实例如下:
+```MongoDB
+>db.col.find({"likes": {$gt:50}, $or: [{"by": "菜鸟教程"},{"title": "MongoDB 教程"}]}).pretty()
+{
+        "_id" : ObjectId("56063f17ade2f21f36b03133"),
+        "title" : "MongoDB 教程",
+        "description" : "MongoDB 是一个 Nosql 数据库",
+        "by" : "菜鸟教程",
+        "url" : "http://www.runoob.com",
+        "tags" : [
+                "mongodb",
+                "database",
+                "NoSQL"
+        ],
+        "likes" : 100
+}
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#### go 操作 MongoDB
 
 
 
