@@ -197,6 +197,128 @@ runoob> db.adminCommand({
 })
 ```
 
+###### 删除集合
+删除集合的命令如下:
+```MongoDB
+db.<collection_name>.drop()
+```
+##### 文档操作
+###### 插入文档
+- **insertOne** 向集合中插入单个文档
+```MongoDB
+db.<collection_name>.insertOne(document , options)
+```
+其中 `document` 表示要插入的单个文档 , `options` 一个可选参数,可以包含 `writeConcern` 和 `bypassDocumentValidation` 等选项 
+- **insertMany** 用于向集合中插入多个文档
+```MongoDB
+db.<collection_name>.insertMany(documents , options)
+```
+`example`如下
+```MongoDB
+runoob> db.adminCommand({
+... renameCollection: "runoob.mycol",
+... to: "runoob.mycoll"
+... })
+```
+- **save** 如果文档中包含`_id` 且已经存在,那么这一个文档就会被更新,如果文档不包含 `_id` 字段或者 `_id` 不存在,则会插入一个新的文档,但是已经弃用了,可以使用 **db.<collection_name>.replaceOne** 函数替代
+- **insert** 用于插入数据一条 `or` 多条 , 但是已经废弃了 , 可以使用到 **insertOne** 和 **insertMany** 替代
+- 同时可以进行插入的时候验证,但是需要在创建集合的指定验证方式
+```shell
+db.createCollection("users" , {
+	validator: {
+		age: {$gt: 0}	
+	}
+})
+```
+###### 更新文档
+- **updateOne** 用于更新匹配过滤器的单个文档
+```MongoDB
+db.<collection_name>.updateOne(filter , update , options)
+```
+其中 **filter** 表示查找文档的查询条件 , **update** 指定更新操作的文档或者更新操作符 , **options** 可选参数对象,比如 `upsert` , `arrayFilters` 等,举例如下:
+```MongoDB
+db.myCollection.updateOne(
+    { name: "Alice" },                // 过滤条件
+    { $set: { age: 26 } },            // 更新操作
+    { upsert: false }                 // 可选参数
+);
+```
+- **updateMany** 用于更新所有匹配过滤器的文档
+```MongoDB
+db.<collection_name>.updateMany(filter , update , options)
+```
+**filter** 表示查询条件, **update** 表示指定操作的文档或者更新操作符号 , **options** 可选参数同上面
+```MongoDB
+db.data.updateMany(
+	{ age: { $lt: 30 } } ,
+	{ $set: { name: "old man" } },
+	{ update: false }
+);
+```
+- **replaceOne** 用于匹配过滤器的单个文档,新的文档将完全替换旧的文档
+```MongoDB
+db.<collection_name>.replaceOne(filter , replacement , options)
+```
+**filter** 表示查找文件的查询条件 , **replacement** 表示新的文档,用于替换旧的文档 , **options** 表示可选的参数选项
+```MongoDB
+db.data.replaceOne( { name: "old man" }, { name: "Alice", age: 100, city: "Beijing" })
+```
+- **findOneAndUpdate** 表示进行查找并且更新单个文档,可以选择返回更新之前或者更新之后的文档
+```MongoDB
+db.<collection_name>.findOneAndUpdate(filter , update , options)
+```
+**filter** 表示过滤器 , **update** 表示更新操作 , **options** 表示可选参数,比如 `returnDocument(after or before)`
+```MongoDB
+db.data.findOneAndUpdate(
+	{ name: "Alice" },
+	{ $set: { age: 33 } },
+	{ returnDocument: "before" }
+);
+```
+###### 删除文档
+- **deleteOne** 用于删除满足匹配过滤器的单个文档
+```MongoDB
+db.<collection_name>.deleteOne(filter , options)
+```
+举例如下:
+```MongoDB
+db.data.deleteOne({ name: "Alice" });
+```
+- **deleteMany** 删除所有匹配过滤器的文档
+```
+db.collection.deleteMany(filter, options)
+```
+
+- **findOneAndDelete** 查找并且删除单个文档,并且可以选择返回删除的文档
+```MongoDB
+db.<collection_name>.findOneAndDelete(filter , options)
+```
+示例:
+```shell
+db.myCollection.findOneAndDelete(
+    { name: "Charlie" },
+    { projection: { name: 1, age: 1 } }
+);
+```
+其中 `projection` 表示返回的字段
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
