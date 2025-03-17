@@ -165,3 +165,24 @@ count(word , k) - count(word , k + 1);
 2. [被围绕的区域](https://leetcode.cn/problems/surrounded-regions/description/?envType=study-plan-v2&envId=top-interview-150) 从边界开始遍历遍历到的位置标记为 `*` 即可
 3. [克隆图](https://leetcode.cn/problems/clone-graph/description/?envType=study-plan-v2&envId=top-interview-150) 类似于随机链表的复制,只需要在遍历的时候不断构建链表即可,注意在构建子节点之后需要把子结点加入到原来的父节点下面的集合中
 4. [基本计算器](https://leetcode.cn/problems/basic-calculator/description/?envType=study-plan-v2&envId=top-interview-150) `corner case`太多了,没有考虑清楚
+# 3.17
+中间打了周赛
+1. [使字符串平衡](https://leetcode.cn/problems/minimum-number-of-swaps-to-make-the-string-balanced/?envType=daily-question&envId=2025-03-17) 贪心问题的关键在与问题的转换,需要考虑局部到整体的关系,比如最小糖果数量这一道题目,只需要考虑一个孩子两边的孩子即可,也就是首先需要转换问题,之后在拆解的问题中从局部到整体考虑,比如本体中把可以这样思考:  在平衡字符串中的前缀中,左括号的数量一定大于或者等于右括号的数量  ---> 交换的时候需要把左括号尽量交换到前缀的位置 ---> 需要把最后的左括号交换到前面不匹配的右括号的位置 , 解法如下,代码很短但是比较难想:
+```c++
+int c = 0 , ans = 0;
+for(char b : s) {
+	if(b == '[') {
+		c ++;	
+	} else if(c > 0) {
+		c --;
+	} else {
+		ans ++;	
+		c ++;
+	}
+	return ans // 也可以是 c / 2
+}
+```
+这里可以返回 `c / 2` 表示本来需要 `-1` , 但是最后 `+ 1` , 所以最后每交换一次增加了 `2` , 所以可以返回 `c / 2`
+
+
+
