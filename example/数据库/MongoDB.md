@@ -368,8 +368,8 @@ db.mycollection().find().sort( { age: -1} );
 ```
 
 #### go 操作 MongoDB
-
-
-
-
-
+这里使用到如下的第三方库:
+```go
+go get go.mongodb.org/mongo-driver/mongo
+```
+不重要,直接看: https://zhuanlan.zhihu.com/p/144308830 即可
