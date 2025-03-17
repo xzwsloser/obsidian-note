@@ -185,5 +185,9 @@ for(char b : s) {
 这里可以返回 `c / 2` 表示本来需要 `-1` , 但是最后 `+ 1` , 所以最后每交换一次增加了 `2` , 所以可以返回 `c / 2`
 
 2. [基本计算器](https://leetcode.cn/problems/basic-calculator/?envType=study-plan-v2&envId=top-interview-150) 可能是编译原理课程上面的课程设计水平吧,但是这一道题目 `LeetCode` 中的 `corner case` 太多了,感觉是一道 顶级`hard` , 参考 [[Hard]] 
-
+3. [除法求值](https://leetcode.cn/problems/evaluate-division/solutions/3078710/bi-jiao-jian-duan-de-dfszuo-fa-yong-shi-r5wmf/?envType=study-plan-v2&envId=top-interview-150) 进行分解即可 
+$$
+\frac{a}{c} = \frac{a}{b} * \frac{b}{c}
+$$
+记录 `a -> b` 以及 `b -> a` 的映射关系即可,可以使用 `pair` 存储 分母和值
 
