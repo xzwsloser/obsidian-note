@@ -41,6 +41,15 @@ sudo docker run -d --name kafka \
 --env KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092 \
 --env KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 \ wurstmeister/kafka
 ```
+- `mongo`
+```shell
+sudo docker run -d --name my-mongo \
+  -p 27017:27017 \
+  -v /home/loser/data/mongo/data:/data/db \
+  -e MONGO_INITDB_ROOT_USERNAME=root \
+  -e MONGO_INITDB_ROOT_PASSWORD=123456 \
+  mongo:latest --auth 
+```
 ## 容器操作
 - 删除容器
 ```shell
