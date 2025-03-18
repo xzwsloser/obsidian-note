@@ -191,3 +191,30 @@ $$
 $$
 记录 `a -> b` 以及 `b -> a` 的映射关系即可,可以使用 `pair` 存储 分母和值
 
+# 3.18
+破 `300` 题目 !!!
+![[Pasted image 20250318190314.png]]
+1. [对角线上的质数](https://leetcode.cn/problems/prime-in-diagonal/description/?envType=daily-question&envId=2025-03-18) 注意这里判断质数的方式,最后只需要遍历到 $\sqrt x$  即可
+2. [课程表II](https://leetcode.cn/problems/course-schedule-ii/description/?envType=study-plan-v2&envId=top-interview-150) 简单的拓扑排序,入度为 `0` 的点进入到队列中即可
+3. [蛇形棋](https://leetcode.cn/problems/snakes-and-ladders/description/?envType=study-plan-v2&envId=top-interview-150) 求解最短路径统一使用 `bfs` , 并且 `queue` 的结构可以定义为 `queue<pair<int,int>>` , 前面一个元素表示遍历到的位置,后面一个元素表示当前步数,但是注意去重
+4. [最小基因变化](https://leetcode.cn/problems/minimum-genetic-mutation/description/?envType=study-plan-v2&envId=top-interview-150) 和上面一样,下面总计这一类题目的模板:
+```c++
+void bfs(容器, 当前位置) {
+	queue<pair<dataType , int>> que;
+	que.emplace(当前位置 , 0);
+	unordered_set<dataType> 去重集合;
+
+	while(!que.empty()) {
+		auto p = que.front(); que.pop();	
+		for(选择关联元素) {
+			if(满足条件) {
+				return cur.second + 1;	
+			}
+			if(没有浏览过) {
+				que.push(遍历到的元素 , cur.second + 1);	
+				去重集合.insert(遍历到的元素);
+			}	
+		}
+	}
+}
+```
