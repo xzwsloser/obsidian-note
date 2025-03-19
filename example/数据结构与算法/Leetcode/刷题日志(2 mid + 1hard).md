@@ -218,3 +218,9 @@ void bfs(容器, 当前位置) {
 	}
 }
 ```
+# 3.19
+1. [转换二维数组](https://leetcode.cn/problems/convert-an-array-into-a-2d-array-with-conditions/?envType=daily-question&envId=2025-03-19)  看到题目中的元素大小限制容易想到哈希表 , 直接使用哈希表记录元素即可,同时也可使用 `less` 记录种类数量,之后遍历的过程中找到不同种类数量的数字为 `0` 即可,应该是一道 `easy` 题
+2. [添加和搜索单词](https://leetcode.cn/problems/design-add-and-search-words-data-structure/description/?envType=study-plan-v2&envId=top-interview-150) 容易想到 `Trie` 前缀树,但是这里的难点在于 `.` 的处理,并且注意一个问题:  **开始的一个节点要对应开始的第一个字符**  这里使用递归函数进行搜索: 
+	- 遇到非 `.`  直接下一步,正常搜索
+	- 遇到 `.`  如果是最后一个字符,那么就需要看下面是否还有一个字符,如果没有字符了,返回 `false` , 否则返回 `true`,如果不是最后一个字符,开始遍历下面非空的节点,并且传入非空节点和截取的子字符串
+3. [单词搜索II](https://leetcode.cn/problems/word-search-ii/description/?envType=study-plan-v2&envId=top-interview-150) 自己做出来的 `Hard` + 1 !!! , 使用 `Trie + dfs` , 由于这里涉及到的子字符串太多了,所以可以首先使用 `Trie` 来插入各种子字符串,之后在`dfs` 遍历的过程中像结果集合中加入元素即可, 注意递归函数的入参和当前遍历位置的关系,注意 `dfs`  的处理和外层的处理一定需要一致
