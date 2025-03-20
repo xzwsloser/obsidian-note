@@ -224,3 +224,7 @@ void bfs(容器, 当前位置) {
 	- 遇到非 `.`  直接下一步,正常搜索
 	- 遇到 `.`  如果是最后一个字符,那么就需要看下面是否还有一个字符,如果没有字符了,返回 `false` , 否则返回 `true`,如果不是最后一个字符,开始遍历下面非空的节点,并且传入非空节点和截取的子字符串
 3. [单词搜索II](https://leetcode.cn/problems/word-search-ii/description/?envType=study-plan-v2&envId=top-interview-150) 自己做出来的 `Hard` + 1 !!! , 使用 `Trie + dfs` , 由于这里涉及到的子字符串太多了,所以可以首先使用 `Trie` 来插入各种子字符串,之后在`dfs` 遍历的过程中像结果集合中加入元素即可, 注意递归函数的入参和当前遍历位置的关系,注意 `dfs`  的处理和外层的处理一定需要一致
+# 3.20
+1. [最少翻转操作数](https://leetcode.cn/problems/minimum-reverse-operations/description/?envType=daily-question&envId=2025-03-20) 感觉是一道顶级 `Hard` 了 , 具体思路就是可以观察对于任意的下标 `i` , 可以发现每一次翻转之后的位置变成  `L + R - i` , 并且当滑动窗口开始移动的时候, `i` 的下标可以增加 `2` 或者减少 `2` , 所以可以发现下标是奇数和下标是偶数的可以经过一次翻转得到(**注意这里表示`bfs`的下一层** )  , 有一点类似于 `Hot100` 的最后一道题目,这里可以把所有可以翻着得到的位置连接一条边,从而形成一个图,为了找到最近距离使用 `bfs` 即可 , 还是看灵神的题解吧,比较清晰(注意边界的区分)    
+2. [建立四叉树](https://leetcode.cn/problems/construct-quad-tree/solutions/1457069/by-ac_oier-maul/?envType=study-plan-v2&envId=top-interview-150) 很简单的一道递归题,注意到可以使用开始下标和边长来表示矩阵即可
+
