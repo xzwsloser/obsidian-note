@@ -230,4 +230,5 @@ void bfs(容器, 当前位置) {
 3. [环形子数组的最大和](https://leetcode.cn/problems/maximum-sum-circular-subarray/?envType=study-plan-v2&envId=top-interview-150) 我使用了滑动窗口, 击败 百分之五 。。。 , 灵神强,记录最大子数组值和最小子数组值,最后的答案为 `max(max_s , sum - min_s)` 分为横跨和没有横跨两种情况,最后注意为了防止结果集为空 , 需要讨论 `sum` 和 `min_s` 的关系,如果相等,相当于不存在 `sum - min_s)` 项,很好的一道题目
 # 3.21
 1. [最大或值](https://leetcode.cn/problems/maximum-or/?envType=daily-question&envId=2025-03-21) 第一种思路使用前后缀分解 ,  `suf[i] = nums[i + 1] | ... | nums[n - 1]`  , 同时在遍历的过程中记录前缀,同时注意只需要一个数字移动 `k` 位即可 , 也就是最终可以得到的答案为: `pre | (long long)nums[i] << k | suf[i]` , 至于方法二,没有看懂为什么那一个等式成立
-2. 
+2. [查找峰值](https://leetcode.cn/problems/find-peak-element/?envType=study-plan-v2&envId=top-interview-150)  经典的二分查找题目,思路还是比较清晰的, **注意二分查找的本质就是缩小查找区间,不断根据中间值来确定答案所在的位置**  , 这里我与原来的做法是判断中点的状态,从而决定两端的移动,其实不需要只需要判断当前元素和下面一个元素的大小关系即可,注意 `right` 从 `n - 2` 开始防止索引超过边界
+
