@@ -227,4 +227,5 @@ void bfs(容器, 当前位置) {
 # 3.20
 1. [最少翻转操作数](https://leetcode.cn/problems/minimum-reverse-operations/description/?envType=daily-question&envId=2025-03-20) 感觉是一道顶级 `Hard` 了 , 具体思路就是可以观察对于任意的下标 `i` , 可以发现每一次翻转之后的位置变成  `L + R - i` , 并且当滑动窗口开始移动的时候, `i` 的下标可以增加 `2` 或者减少 `2` , 所以可以发现下标是奇数和下标是偶数的可以经过一次翻转得到(**注意这里表示`bfs`的下一层** )  , 有一点类似于 `Hot100` 的最后一道题目,这里可以把所有可以翻着得到的位置连接一条边,从而形成一个图,为了找到最近距离使用 `bfs` 即可 , 还是看灵神的题解吧,比较清晰(注意边界的区分)    
 2. [建立四叉树](https://leetcode.cn/problems/construct-quad-tree/solutions/1457069/by-ac_oier-maul/?envType=study-plan-v2&envId=top-interview-150) 很简单的一道递归题,注意到可以使用开始下标和边长来表示矩阵即可
+3. [环形子数组的最大和](https://leetcode.cn/problems/maximum-sum-circular-subarray/?envType=study-plan-v2&envId=top-interview-150) 我使用了滑动窗口, 击败 百分之五 。。。 , 灵神强,记录最大子数组值和最小子数组值,最后的答案为 `max(max_s , sum - min_s)` 分为横跨和没有横跨两种情况,最后注意为了防止结果集为空 , 需要讨论 `sum` 和 `min_s` 的关系,如果相等,相当于不存在 `sum - min_s)` 项,很好的一道题目
 
