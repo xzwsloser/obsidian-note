@@ -232,3 +232,5 @@ void bfs(容器, 当前位置) {
 1. [最大或值](https://leetcode.cn/problems/maximum-or/?envType=daily-question&envId=2025-03-21) 第一种思路使用前后缀分解 ,  `suf[i] = nums[i + 1] | ... | nums[n - 1]`  , 同时在遍历的过程中记录前缀,同时注意只需要一个数字移动 `k` 位即可 , 也就是最终可以得到的答案为: `pre | (long long)nums[i] << k | suf[i]` , 至于方法二,没有看懂为什么那一个等式成立
 2. [查找峰值](https://leetcode.cn/problems/find-peak-element/?envType=study-plan-v2&envId=top-interview-150)  经典的二分查找题目,思路还是比较清晰的, **注意二分查找的本质就是缩小查找区间,不断根据中间值来确定答案所在的位置**  , 这里我与原来的做法是判断中点的状态,从而决定两端的移动,其实不需要只需要判断当前元素和下面一个元素的大小关系即可,注意 `right` 从 `n - 2` 开始防止索引超过边界
 
+3. [查找和最小的 `K` 对数](https://leetcode.cn/problems/find-k-pairs-with-smallest-sums/description/?envType=study-plan-v2&envId=top-interview-150)  注意到如果 $(i , j)$ 为当前最小值,那么下一个最小值就是 $(i + 1 , j)$ 或者 $(i , j + 1)$ ,所以可以模仿 `bfs` 的原理,把当前值加入到堆中,并且每一次出堆的时候就把这两个元素加入到堆中并且把当前元素加入到集合中 , 感觉类似于  堆 + `bfs`  + 动态规划 , 状态转移方式如下(注意到每一次只是把 $(i , 0)$入堆,这样可以防止重复),每一次只需要把 $(i , j + 1)$ 入堆即可!!!
+![[Pasted image 20250321151238.png]]
