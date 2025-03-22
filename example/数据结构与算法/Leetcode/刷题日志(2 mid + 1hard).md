@@ -249,3 +249,22 @@ one = one ^ num & (~two)
 two = two ^ num & (~one)
 ```
 或者一种比较好理解的方法就是统计数位,并且最后把每一个位置上面 `1` 的个数 模 `3` 最后进行拼接即可
+3. [数字范围按位与](https://leetcode.cn/problems/bitwise-and-of-numbers-range/description/?envType=study-plan-v2&envId=top-interview-150)  假设 `m` 和 `n` 的公共前缀未 `prefix` , 那么 `prefix` 的下一个位置一定是 `0 or 1` , 所以`m` 可以表示为  `prefix0abcdefs....` , 并且 `n` 可以表示为 `prefix1hijklmn...` , 所以两者之后的位置一定会经过 `prefix10000...` , 所以最终的结果就是 `prefix0000...`,所以之需要找到不同的最高位即可,同时可以使用一个变量来不断记录取出的数字
+```c++
+class Solution {
+public:
+	int rangeBitwiseAnd(int m , int n) {
+		int mask = 1 << 30;
+		int anw = 0;
+		
+		while(mask > 0 && (m & mask) == (n & mask)) {
+		anw |= m & mask;
+		mask >>= 1;
+		}
+		
+		return anw;
+	}
+
+};
+```
+
