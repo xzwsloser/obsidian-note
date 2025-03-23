@@ -270,3 +270,29 @@ public:
 
 # 3.23 
 1. [判断一个数字字符是否有效](https://leetcode.cn/problems/check-if-a-parentheses-string-can-be-valid/description/?envType=daily-question&envId=2025-03-23) 如果利用 `dp` 的话,子状态依赖于之后的状态做不出来,可以这样思考,每一次把 `locked[i] == 0` 的位置的括号记录为 `?` , 可以不断变化,所以这个时候只需要不断记录 `c(没有匹配的左括号数量)` 的取值范围即可,最后只需要判断 `c` 的取值范围 `= 0` 即可,并且注意在这一个过程中 , `c` 取值范围只可以时连续的奇数 or 偶数(距离每一次增加 `2` , 并且无法修改时同步)
+2. [属性图](https://leetcode.cn/problems/properties-graph/description/?slug=find-the-minimum-amount-of-time-to-brew-potions&region=local_v2) 思路还是简单的, 并查集 即可 , 把所有满足条件的位置加入到并查集中,并且统计 `0 - n` 范围内 `i == father[i]` 的个数即可(使用并查集的压缩存储)
+3. [酿造药水需要的最少总时间](https://leetcode.cn/problems/find-the-minimum-amount-of-time-to-brew-potions/?slug=find-the-minimum-amount-of-time-to-brew-potions&region=local_v2) **思路大概是正确的,一层一层递推,正推: `min_time[i] = max(sum_t , min_time[i - 1]) + skill[i] * m` , 反推: `min_time[i] = sum_t - skill[i + 1] * m` , 正推一遍,反推一遍即可,比较好的一道题目**
+```c++
+class Solution {
+public:
+long long minTime(vector<int>& skill, vector<int>& mana) {
+	int n = skill.size();
+	vector<long long> last_finish(n);
+	for(int m : mana) {
+		long long sum_t;
+		for (int i = 0 ; i < n ; i ++) {
+			sum_t = max(sum_t , last_finish[i]) + skill[i] * m;
+		}
+	
+		last_finish[n - 1] = sum_t;
+	
+		for (int i = n - 2 ; i >= 0 ; i --) {
+			sum_t -= skill[i + 1] * m;
+			last_finish[i] = sum_t;
+		}
+	
+	}
+	return last_finish[n - 1];
+}
+};
+```
