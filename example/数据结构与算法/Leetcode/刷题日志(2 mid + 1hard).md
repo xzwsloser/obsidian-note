@@ -268,3 +268,5 @@ public:
 };
 ```
 
+# 3.23 
+1. [判断一个数字字符是否有效](https://leetcode.cn/problems/check-if-a-parentheses-string-can-be-valid/description/?envType=daily-question&envId=2025-03-23) 如果利用 `dp` 的话,子状态依赖于之后的状态做不出来,可以这样思考,每一次把 `locked[i] == 0` 的位置的括号记录为 `?` , 可以不断变化,所以这个时候只需要不断记录 `c(没有匹配的左括号数量)` 的取值范围即可,最后只需要判断 `c` 的取值范围 `= 0` 即可,并且注意在这一个过程中 , `c` 取值范围只可以时连续的奇数 or 偶数(距离每一次增加 `2` , 并且无法修改时同步)
