@@ -296,3 +296,6 @@ long long minTime(vector<int>& skill, vector<int>& mana) {
 }
 };
 ```
+# 3.24
+1. 每日一题: `easy`
+2. 
