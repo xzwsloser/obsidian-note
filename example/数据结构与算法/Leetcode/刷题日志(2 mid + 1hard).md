@@ -298,4 +298,16 @@ long long minTime(vector<int>& skill, vector<int>& mana) {
 ```
 # 3.24
 1. 每日一题: `easy`
-2. 
+2. [阶乘之后的 0](https://leetcode.cn/problems/factorial-trailing-zeroes/description/?envType=study-plan-v2&envId=top-interview-150) 质因子分解,一道数学题,考虑到 `10 = 2 x 5` , 所以只需要求解 `n!` 中质因子`2`的个数和质因子 `5` 的个数之中的较小值即可,但是考虑到质因子 `5` 的个数总是小于或者等于 `2` , 所以之需要考虑质因子 `5` 的个数,代码实现如下
+```c++
+class Solution { 
+public: 
+	int trailingZeroes(int n) { 
+	int ans = 0; 
+	while (n) { n /= 5; ans += n; } 
+		 return ans; 
+	} 
+};
+```
+2. [三角形最小路径和](https://leetcode.cn/problems/triangle/description/?envType=study-plan-v2&envId=top-interview-150) 设置同样形状的 `dp` 数组, `dp[i][j]` 表示遍历到 `(i , j)` 位置的最小路径,自顶向下或者自下向上都可以
+3. [交错字符串](https://leetcode.cn/problems/interleaving-string/description/?envType=study-plan-v2&envId=top-interview-150)  `dp` 思路还是比较明显的 , `dp[i][j]` 表示长度为 `i` 的子字符串 `s1` 和长度为 `j` 的子字符串 `s2`  交错之后是否形成长度为 `i + j` 的 `s3` 的子字符串,递推公式还是可以理解成选 or 不选的问题
