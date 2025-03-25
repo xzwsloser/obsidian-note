@@ -343,3 +343,8 @@ vector<vector<int>> differenceOfDistinctValues(vector<vector<int>>& grid) {
 }
 };
 ```
+2. [最大正方形](https://leetcode.cn/problems/maximal-square/description/?envType=study-plan-v2&envId=top-interview-150) 边长 `dp` , 还是比较好想的,递推公式为: 
+$$
+dp[i][j] = min(dp[i - 1][j - 1] , dp[i - 1][j] , dp[i][j - 1]) + 1
+$$
+所以最终答案的求解为: `ans = max(ans , cur * cur)`
