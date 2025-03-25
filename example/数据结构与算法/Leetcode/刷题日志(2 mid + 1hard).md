@@ -348,3 +348,24 @@ $$
 dp[i][j] = min(dp[i - 1][j - 1] , dp[i - 1][j] , dp[i][j - 1]) + 1
 $$
 所以最终答案的求解为: `ans = max(ans , cur * cur)`
+3. [直线上的最多点数](https://leetcode.cn/problems/max-points-on-a-line/description/?envType=study-plan-v2&envId=top-interview-150) 想法还是比较直接的,采取枚举直线的方式,但是问题就是如何保存直线? , 这里采用了求解 `x1 - x2` 和 `y1 - y2` 的最小公约数,并且进行求解,推导如下:
+$$
+\frac{x_1}{a} + \frac{y_1}{b} = 1
+$$
+
+$$
+\frac{x_2}{a} + \frac{y_2}{b} = 1
+$$
+两个式子相减可以得到:
+$$
+\frac{x_1 - x_2}{a} + \frac{y_1 - y_2}{b} = 0 
+$$
+从而可以得到:
+$$
+\frac{a}{b} = -\frac{x1 - x2}{y1 - y2}
+$$
+所以如果得到 `a` 和 `b` 的最小公约是,那么就可以得到
+$$
+\frac{a}{b} = \frac{mk}{nk} = \frac{m}{n}
+$$
+其中 `m` 和 `n`互为质数,并且比值固定,所以可以得到只需要 `m` 和 `n` 就可以确定直线了,并且 `m` 和 `n` 为整数,同时注意 `C++` 中的解法
