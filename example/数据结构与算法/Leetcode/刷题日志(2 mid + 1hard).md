@@ -311,3 +311,35 @@ public:
 ```
 2. [三角形最小路径和](https://leetcode.cn/problems/triangle/description/?envType=study-plan-v2&envId=top-interview-150) 设置同样形状的 `dp` 数组, `dp[i][j]` 表示遍历到 `(i , j)` 位置的最小路径,自顶向下或者自下向上都可以
 3. [交错字符串](https://leetcode.cn/problems/interleaving-string/description/?envType=study-plan-v2&envId=top-interview-150)  `dp` 思路还是比较明显的 , `dp[i][j]` 表示长度为 `i` 的子字符串 `s1` 和长度为 `j` 的子字符串 `s2`  交错之后是否形成长度为 `i + j` 的 `s3` 的子字符串,递推公式还是可以理解成选 or 不选的问题
+# 3.25
+1. [对角线上不同值的数量差](https://leetcode.cn/problems/difference-of-number-of-distinct-values-on-diagonals/) 看了一下题目,一定是前后缀分解,我的解法很笨,定义两个数组 `prefix` 和 `suffix` 分别进行填充操作,灵神的方法很厉害,就是太吃操作了,利用这些方法确定对角线(感觉自己的改一下也可以,计算前缀的时候直接使用 `ans` , 之后减去后缀即可)
+```c++
+class Solution {
+public:
+vector<vector<int>> differenceOfDistinctValues(vector<vector<int>>& grid) {
+	int m = grid.size() , n = grid[0].size();
+	vector<vector<int>> ans(m , vector<int>(n , 0));
+	unordered_set<int> st;
+
+	for(int k = 1 ; k < m + n ; k ++) {
+		int min_j = max(n - k , 0);
+		int max_j = min(m + n - 1 - k , n - 1);
+	  
+		st.clear();
+	for(int j = min_j ; j <= max_j ; j ++) {
+		int i = k + j - n;
+		ans[i][j] = st.size();
+		st.insert(grid[i][j]);
+	}
+
+	st.clear();
+	for(int j = max_j ; j >= min_j ; j --) {
+		int i = k + j - n;
+		ans[i][j] = abs(ans[i][j] - (int)st.size());
+		st.insert(grid[i][j]);
+	}
+}
+	return ans;
+}
+};
+```
