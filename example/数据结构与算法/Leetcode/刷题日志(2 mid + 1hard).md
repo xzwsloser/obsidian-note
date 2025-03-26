@@ -368,4 +368,13 @@ $$
 $$
 \frac{a}{b} = \frac{mk}{nk} = \frac{m}{n}
 $$
-其中 `m` 和 `n`互为质数,并且比值固定,所以可以得到只需要 `m` 和 `n` 就可以确定直线了,并且 `m` 和 `n` 为整数,同时注意 `C++` 中的解法
+其中 `m` 和 `n`互为质数,并且比值固定,所以可以得到只需要 `m` 和 `n` 就可以确定直线了,并且 `m` 和 `n` 为整数,同时注意 `C++` 中的解法,注意求解最大公约数的函数的写法:
+```c++
+int gcd(int a , int b) {
+	return b == 0 ? a : gcd(b , a % b);
+}
+```
+# 3.26
+1. [k-avoiding数组的最小总和](https://leetcode.cn/problems/determine-the-minimum-sum-of-a-k-avoiding-array/description/?envType=daily-question&envId=2025-03-26) 如果不要求 `O(1)` 化,基本可以说是一道 `easy` , 和两数之和一个样
+2. [岛屿的最大面积](https://leetcode.cn/problems/max-area-of-island/) 图论基本题目
+3. []()
