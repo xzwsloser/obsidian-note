@@ -377,4 +377,5 @@ int gcd(int a , int b) {
 # 3.26
 1. [k-avoiding数组的最小总和](https://leetcode.cn/problems/determine-the-minimum-sum-of-a-k-avoiding-array/description/?envType=daily-question&envId=2025-03-26) 如果不要求 `O(1)` 化,基本可以说是一道 `easy` , 和两数之和一个样
 2. [岛屿的最大面积](https://leetcode.cn/problems/max-area-of-island/) 图论基本题目
-3. []()
+3. 排序数组,重新复习一下十一种排序算法
+![[Pasted image 20250326163339.png]]
