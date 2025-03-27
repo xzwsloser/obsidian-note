@@ -379,3 +379,5 @@ int gcd(int a , int b) {
 2. [岛屿的最大面积](https://leetcode.cn/problems/max-area-of-island/) 图论基本题目
 3. 排序数组,重新复习一下十一种排序算法
 ![[Pasted image 20250326163339.png]]
+# 3.27
+1. [使所有字符相等的最小成本](https://leetcode.cn/problems/minimum-cost-to-make-all-characters-equal/description/?envType=daily-question&envId=2025-03-27)  注意到只需要相邻的字符相等即可(这就是局部最优),之后可以发现,如果 `s[i] != s[i - 1]` , 那么必须相等,只可以这样翻转: `s[0] - s[i - 1]` 或者 `s[i] - s[n - 1]` , 对于相等的字符翻转之后依然相等,但是对于不相等的字符依然不相等,所以这就由局部最优推出了全局最优,所以每一次翻转的最小的值为 `min(i , n - i)`
