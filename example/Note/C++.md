@@ -110,7 +110,46 @@ auto AddTask(F&& f , Args&&... args)
 -> std::future<typename std::result_of<F(Args...)>::type>
 ```
 
+# 6. C++ 使用第三方函
+一般根据 `README.md` 的操作来安装库,之后就可以直接使用了,但是需要注意使用 `CMake` 来构建项目(其实使用 `g++` 也可以), 根据官方的操作即可
+# 7. C++ 使用 yaml-cpp 解析 Yaml 文件
+```c++
+#include <iostream>
+#include <yaml-cpp/yaml.h>
 
+
+void parseNode(const YAML::Node& node, const std::string& prefix = "") {
+    for (YAML::const_iterator it = node.begin(); it != node.end(); ++it) {
+        std::string key = it->first.as<std::string>();
+        const YAML::Node& value = it->second;
+
+        std::string fullPath = prefix.empty() ? key : prefix + "." + key;
+
+        if (value.IsMap()) {
+            // If the node is a map, recursively parse its children
+            parseNode(value, fullPath);
+        } else if (value.IsSequence()) {
+            // If the node is a sequence, iterate through its elements
+            for (size_t i = 0; i < value.size(); ++i) {
+                std::string elementPath = fullPath + "[" + std::to_string(i) + "]";
+                std::cout << elementPath << ": " << value[i] << std::endl;
+            }
+        } else {
+            // Otherwise, it's a scalar value
+            std::cout << fullPath << ": " << value.as<std::string>() << std::endl;
+        }
+    }
+}
+
+int main() {
+    YAML::Node config = YAML::LoadFile("config.yaml");
+
+    // Parse the root node
+    parseNode(config);
+
+    return 0;
+}
+```
 
 
 
