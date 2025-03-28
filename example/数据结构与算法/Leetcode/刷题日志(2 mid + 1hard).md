@@ -387,4 +387,5 @@ int gcd(int a , int b) {
 # 3.28
 1. 每日一题: 字符串去重,使用二进制位统计即可
 2. [解码方法](https://leetcode.cn/problems/decode-ways/description/) 使用回溯超时了 !!! , 所以这里使用动态规划即可,但是注意到初始化 `dp[0] = 1` 才可以!
-3. 
+3. [字符串的排列](https://leetcode.cn/problems/permutation-in-string/description/) 比较容易想到滑动窗口,但是注意到窗口移动的条件 `store[c] < 0` 或者 `!store.count(c)`(但是注意到此时需要恢复前面的值)
+4. [t]()
