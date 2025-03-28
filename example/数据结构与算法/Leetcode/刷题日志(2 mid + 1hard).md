@@ -386,3 +386,5 @@ int gcd(int a , int b) {
 4. [望远镜中的最高海拔](https://leetcode.cn/problems/hua-dong-chuang-kou-de-zui-da-zhi-lcof/description/) 单调队列,注意使用 `deque` 容器维护,这里的单调队列我的理解就是  单调栈入栈的特点 + 队列 `FIFO` 的特点,单调栈和队列的杂合体
 # 3.28
 1. 每日一题: 字符串去重,使用二进制位统计即可
+2. [解码方法](https://leetcode.cn/problems/decode-ways/description/) 使用回溯超时了 !!! , 所以这里使用动态规划即可,但是注意到初始化 `dp[0] = 1` 才可以!
+3. 
