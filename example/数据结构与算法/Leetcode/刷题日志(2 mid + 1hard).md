@@ -384,3 +384,5 @@ int gcd(int a , int b) {
 2. [衣橱整理](https://leetcode.cn/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/description/) 直接使用 `dfs` 或者 `bfs` 即可,注意题目的意思,看一条大佬的评论
 3. [路径总和II](https://leetcode.cn/problems/path-sum-ii/description/) 回溯算法,注意最终的节点为叶子节点即可
 4. [望远镜中的最高海拔](https://leetcode.cn/problems/hua-dong-chuang-kou-de-zui-da-zhi-lcof/description/) 单调队列,注意使用 `deque` 容器维护,这里的单调队列我的理解就是  单调栈入栈的特点 + 队列 `FIFO` 的特点,单调栈和队列的杂合体
+# 3.28
+1. 每日一题: 字符串去重,使用二进制位统计即可
