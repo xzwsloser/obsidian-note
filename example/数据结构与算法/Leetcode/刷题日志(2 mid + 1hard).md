@@ -389,3 +389,9 @@ int gcd(int a , int b) {
 2. [解码方法](https://leetcode.cn/problems/decode-ways/description/) 使用回溯超时了 !!! , 所以这里使用动态规划即可,但是注意到初始化 `dp[0] = 1` 才可以!
 3. [字符串的排列](https://leetcode.cn/problems/permutation-in-string/description/) 比较容易想到滑动窗口,但是注意到窗口移动的条件 `store[c] < 0` 或者 `!store.count(c)`(但是注意到此时需要恢复前面的值)
 4. [交易逆序对](https://leetcode.cn/problems/shu-zu-zhong-de-ni-xu-dui-lcof/description/) 很难想到的一道题目,暴力超时,这里使用到归并排序,并且在归并排序合并数组的时候统计即可,参考 `K` 神的题解
+# 3.29
+1. [图中的最长环](https://leetcode.cn/problems/longest-cycle-in-a-graph/description/?envType=daily-question&envId=2025-03-29) 虽然是一道 `Hard` , 但是感觉思路还是比较直接的,我一开始的思路就是利用并查集找环,最终并查集中满足 `i == father[i]` 的节点加入到查找集合中即可,之后就可以使用链表找环的方法找环,但是看了灵神的题解,这里可以使用到时间来记录,每一次都需要遍历没有走过的节点(也就是 `vis_time[x] == 0` ,这是由于环中的一个节点只可以属于一个环形,每一次分别遍历即可)
+2. [解密数字](https://leetcode.cn/problems/ba-shu-zi-fan-yi-cheng-zi-fu-chuan-lcof/description/) 和昨天的接码方法一样,不说了
+3. [推理二叉树](https://leetcode.cn/problems/zhong-jian-er-cha-shu-lcof/description/) 利用前序遍历和中序遍历确定二叉树,原题了
+
+
