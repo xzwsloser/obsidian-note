@@ -394,4 +394,30 @@ int gcd(int a , int b) {
 2. [解密数字](https://leetcode.cn/problems/ba-shu-zi-fan-yi-cheng-zi-fu-chuan-lcof/description/) 和昨天的接码方法一样,不说了
 3. [推理二叉树](https://leetcode.cn/problems/zhong-jian-er-cha-shu-lcof/description/) 利用前序遍历和中序遍历确定二叉树,原题了
 
+# 3.30
+1. 每日一题: 你就拿这样的中等题来考验面试者,哪一个面试者经不起这样的考验?
+2. [子结构判断](https://leetcode.cn/problems/shu-de-zi-jie-gou-lcof/description/) 思路还是比较自然的,当需要判断的节点和当前根节点的值相同的时候是一中情况,不同的时候需要继续在左子数和右子树上面搜索,注意搜索方式即可
+```c++
+class Solution {
+public:
+bool isSubStructure(TreeNode* A, TreeNode* B) {
+	if(A == nullptr || B == nullptr) return false;
+	return isRootSame(A , B) ||
+	isSubStructure(A -> left , B) ||
+	isSubStructure(A -> right , B);
+}
+
+//@brief: 判断 A 是否和 B 结构相似
+bool isRootSame(TreeNode* A , TreeNode* B) {
+	if(A == nullptr && B == nullptr) return true;
+	if(B == nullptr) return true;
+	if(A == nullptr) return false;
+	if(A -> val != B -> val) return false;
+	return isRootSame(A -> left , B -> left) && isRootSame(A -> right , B -> right);
+}
+
+};
+```
+3. [彩灯装饰记录III](https://leetcode.cn/problems/cong-shang-dao-xia-da-yin-er-cha-shu-iii-lcof/description/) 之前的原题
+4. [地下城游戏](https://leetcode.cn/problems/dungeon-game/description/) `dfs` 超时了,这里使用反向 `dp` , 由于正向 `dp` 无法确定后面的情况,所以对于一个位置 `(i , j)` , 可以由 `(i + 1 , j) or (i , j + 1)` 到达,所以每一次只需要从累积值小的位置移动过来即可,同样,确定初始值的题目一般都可以往反向 `dp` 思考
 
