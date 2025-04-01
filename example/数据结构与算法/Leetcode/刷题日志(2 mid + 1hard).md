@@ -421,3 +421,9 @@ bool isRootSame(TreeNode* A , TreeNode* B) {
 3. [彩灯装饰记录III](https://leetcode.cn/problems/cong-shang-dao-xia-da-yin-er-cha-shu-iii-lcof/description/) 之前的原题
 4. [地下城游戏](https://leetcode.cn/problems/dungeon-game/description/) `dfs` 超时了,这里使用反向 `dp` , 由于正向 `dp` 无法确定后面的情况,所以对于一个位置 `(i , j)` , 可以由 `(i + 1 , j) or (i , j + 1)` 到达,所以每一次只需要从累积值小的位置移动过来即可,同样,确定初始值的题目一般都可以往反向 `dp` 思考
 
+# 3.31 
+1. 每日一题 
+2. [省份数量](https://leetcode.cn/problems/number-of-provinces/) 并查集经典题目
+3. [砍竹子I](https://leetcode.cn/problems/jian-sheng-zi-lcof/description/) 动态规划 , `dp[i] = max({dp[i] , j * (i - j) , j * dp[i - j]})`
+4. [二叉树的序列化与反序列化](https://leetcode.cn/problems/serialize-and-deserialize-binary-tree/description/) 很有意思的一道题目,使用层序遍历当 `nullptr` 过多的时候会存储很多 `nullptr` 超时,使用 `dfs` + 先序遍历即可,同时注意反序列化的时候时用一个队列存储节点的值,每一次弹出一个节点即可,可以看一下 `笨猪爆破组` 的题解,非常清晰
+![[Pasted image 20250331112227.png]]
