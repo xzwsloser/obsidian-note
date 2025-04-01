@@ -427,3 +427,24 @@ bool isRootSame(TreeNode* A , TreeNode* B) {
 3. [砍竹子I](https://leetcode.cn/problems/jian-sheng-zi-lcof/description/) 动态规划 , `dp[i] = max({dp[i] , j * (i - j) , j * dp[i - j]})`
 4. [二叉树的序列化与反序列化](https://leetcode.cn/problems/serialize-and-deserialize-binary-tree/description/) 很有意思的一道题目,使用层序遍历当 `nullptr` 过多的时候会存储很多 `nullptr` 超时,使用 `dfs` + 先序遍历即可,同时注意反序列化的时候时用一个队列存储节点的值,每一次弹出一个节点即可,可以看一下 `笨猪爆破组` 的题解,非常清晰
 ![[Pasted image 20250331112227.png]]
+
+# 4.1
+1. [解决智力问题](https://leetcode.cn/problems/solving-questions-with-brainpower/description/?envType=daily-question&envId=2025-04-01)  注意到 `dp` 中,对于一个位置需要考虑所有情况,也就是选 `or` 不选择的两种情况 , 另外注意到 `dp` 都可以使用 `dfs + 记忆化搜索来求解` , 这一道题目中由于需要知道 `f[i]` 选或者不选两种情况,所以只需要知道 `f[i + questions[i][1]]` 和 `f[i + 1]` 即可,同时分解为子问题进行 `dp` 也可以,把 `dp` 看成搜索即可,`dfs + 记忆化搜索` 的模板如下:
+```c++
+class Solution { 
+public: 
+	long long mostPoints(vector<vector<int>>& questions) { 
+	int n = questions.size(); 
+	vector<long long> memo(n); 
+	auto dfs = [&](this auto&& dfs, int i) -> long long { 
+	if (i >= n) { return 0; } 
+	long long& res = memo[i];
+	if(res) return res;
+	return res = max(dfs(i + 1) , dfs(i + questions[i][1] + 1) + questions[i][0]);
+	};
+
+	return dfs(0);
+```
+
+2. [珠宝的最高价值](https://leetcode.cn/problems/li-wu-de-zui-da-jie-zhi-lcof/) 常规 `dp` , 但是注意到可以使用一维数组对于空间进行优化, `dp[i] --> 本层` , `dp[i - 1] --> 上一层` ,同时可以设置数组长度为 `n` 可以避免初始化
+3. 
