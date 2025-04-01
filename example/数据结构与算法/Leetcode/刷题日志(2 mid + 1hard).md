@@ -447,4 +447,4 @@ public:
 ```
 
 2. [珠宝的最高价值](https://leetcode.cn/problems/li-wu-de-zui-da-jie-zhi-lcof/) 常规 `dp` , 但是注意到可以使用一维数组对于空间进行优化, `dp[i] --> 本层` , `dp[i - 1] --> 上一层` ,同时可以设置数组长度为 `n` 可以避免初始化
-3. 
+3. [旋转数组最小值](https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array-ii/solutions/9474/154-find-minimum-in-rotated-sorted-array-ii-by-jyd/) 二分查找真的难度大,一般的通解就是标记中间位置的状态,根据中间位置的状态来决定移动方式即可
