@@ -452,4 +452,4 @@ public:
 # 4.2
 1. [有序三元组中的最大值II](https://leetcode.cn/problems/maximum-value-of-an-ordered-triplet-i/description/?envType=daily-question&envId=2025-04-02) 前后缀分解,太明显了,枚举右,维护左即可
 2. [删除链表中的节点](https://leetcode.cn/problems/delete-node-in-a-linked-list/description/) 什么 `sb` 题目,没营养
-3. 
+3. 做了其他的几个题目,都是原题没有什么好说的 ...
