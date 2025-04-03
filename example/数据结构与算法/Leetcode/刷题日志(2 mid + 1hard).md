@@ -453,3 +453,6 @@ public:
 1. [有序三元组中的最大值II](https://leetcode.cn/problems/maximum-value-of-an-ordered-triplet-i/description/?envType=daily-question&envId=2025-04-02) 前后缀分解,太明显了,枚举右,维护左即可
 2. [删除链表中的节点](https://leetcode.cn/problems/delete-node-in-a-linked-list/description/) 什么 `sb` 题目,没营养
 3. 做了其他的几个题目,都是原题没有什么好说的 ...
+# 4.3
+1. [有序三元组中的最大值II](https://leetcode.cn/problems/maximum-value-of-an-ordered-triplet-ii/description/?envType=daily-question&envId=2025-04-03) 估计是想到昨天有人使用暴力解法可以过,这里使用了前后缀分解 or 枚举 `k` 直即可,维护两个变量`max_diff 和 pre_max` 分别表示最大差值和前面的最大值即可
+2. 
