@@ -455,4 +455,33 @@ public:
 3. 做了其他的几个题目,都是原题没有什么好说的 ...
 # 4.3
 1. [有序三元组中的最大值II](https://leetcode.cn/problems/maximum-value-of-an-ordered-triplet-ii/description/?envType=daily-question&envId=2025-04-03) 估计是想到昨天有人使用暴力解法可以过,这里使用了前后缀分解 or 枚举 `k` 直即可,维护两个变量`max_diff 和 pre_max` 分别表示最大差值和前面的最大值即可
-2. 
+2. [奇偶链表](https://leetcode.cn/problems/odd-even-linked-list/description/) 直接不断删除偶数节点并且插入到新的链表,最终合并到原来的链表即可
+3. [航班预订统计](https://leetcode.cn/problems/corporate-flight-bookings/description/)  差分的思想,差分可以理解为前缀和逆运算
+> 差分的抽象:  已经知道每一次公交车上人数的变化,求解每一站车上的人数, 其中 `diff[i]` 表示在 `i` 站下车和上车的人数差值,所以相当于每一个站点车中人数的增长量为`diff[i]` , 所以最终答案的求解过程为: `ans[i] = ans[i - 1] + diff[i]` , 结合公交车的例子很容易理解
+
+在这一道题目中可以这样理解 , `bookings` 中的每一个元素表示 `[first , last]` 的区间上面有 `seats` 个人数,并且注意到 `first` 上车,在 `last + 1` 下车即可,注意差分的模板即可
+```c++
+class Solution {
+public:
+vector<int> corpFlightBookings(vector<vector<int>>& bookings, int n) {
+vector<int> diff(n + 1 , 0);
+for (vector<int>& vec : bookings) {
+	int first = vec[0];
+	int last = vec[1];
+	int seats = vec[2];
+	diff[first - 1] += seats;
+	diff[last] -= seats;
+}
+
+vector<int> ans(n , 0);
+ans[0] = diff[0];
+
+for (int i = 1 ; i < n ; i ++) {
+	ans[i] = ans[i - 1] + diff[i];
+}
+
+return ans;
+}
+
+};
+```
