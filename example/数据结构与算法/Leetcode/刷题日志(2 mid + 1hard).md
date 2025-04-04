@@ -487,4 +487,24 @@ return ans;
 ```
 # 4.4
 1. [最深叶节点的最近公共祖先](https://leetcode.cn/problems/lowest-common-ancestor-of-deepest-leaves/?envType=daily-question&envId=2025-04-04) 还是模仿最先祖先节点的例子,首先需要计算左边子树的最大高度和右边子树的最大高度,确定最深叶子节点的位置,之后递归到最深的叶子节点如果两边的深度一样,那么返回自己即可
-2. 
+2. [二叉搜索树 --> 双向链表](https://leetcode.cn/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/description/) 正常思路转换即可
+3. [验证后序遍历](https://leetcode.cn/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/description/) 我自己的思路还是利用后序遍历的性质,左右根 , 所以只需要找到一个位置左边的数字全部小于根节点并且右边的节点全部大于根节点即可,所以这里使用前后缀分解 + 递归的方式即可求解,另外一个大佬使用了单调栈的方法,逆序遍历数组 `root -> right -> left` , 所以遇到第一个小于根节点的元素表示遇到了左子树的根节点,继续递归,并且对于右子树,业绩是一样递归的
+> 对于根节点,首先进入到右子树,在右子树中,还是同样的遍历顺序,所以一定会递归到右子树的左子树,此时会更新根节点的值,之后继续遍历保留根节点的值,同时只留下 `root` , 遍历到左子树一是一样的逻辑，当出现不满足大小关系的元素直接退出即可
+```c++
+class Solution { 
+public: 
+bool verifyTreeOrder(vector<int>& postorder) { 
+	stack<int> stk; 
+	int root = INT_MAX;
+	for(int i = postorder.size() - 1; i >= 0; i--) {
+		if(postorder[i] > root) return false; 
+		while(!stk.empty() && stk.top() > postorder[i]) { 
+			root = stk.top(); 
+			stk.pop(); 
+		}
+		stk.push(postorder[i]); 
+	} 
+	return true; 
+} 
+};
+```
