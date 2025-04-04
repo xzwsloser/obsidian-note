@@ -486,3 +486,5 @@ return ans;
 };
 ```
 # 4.4
+1. [最深叶节点的最近公共祖先](https://leetcode.cn/problems/lowest-common-ancestor-of-deepest-leaves/?envType=daily-question&envId=2025-04-04) 还是模仿最先祖先节点的例子,首先需要计算左边子树的最大高度和右边子树的最大高度,确定最深叶子节点的位置,之后递归到最深的叶子节点如果两边的深度一样,那么返回自己即可
+2. 
