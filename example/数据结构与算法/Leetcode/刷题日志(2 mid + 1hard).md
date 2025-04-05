@@ -512,3 +512,22 @@ bool verifyTreeOrder(vector<int>& postorder) {
 1. [找出所有子集的异或总和](https://leetcode.cn/problems/sum-of-all-subset-xor-totals/description/?envType=daily-question&envId=2025-04-05) 看着就是一道数学题,但是还是想不到数学解法,果断回溯直接过了,看了一下灵神解法,可以这样理解:
 > 特殊情况: 全部都是 `0 , 1` , 那么就可以发现至少有一个 `1` 的情况下,总的异或和总和为 $2^{n - 1}$ , 所以只需要对于每一个比特位求解总和即可,可以发现最终的结果就是 `2 ^ {所有为 1 的比特位} * 2 ^{n - 1}` ,同时注意到求解前者只需要对于所有的位进行异或即可!
 
+2. [搜索旋转排序数组II](https://leetcode.cn/problems/search-in-rotated-sorted-array-ii/solutions/3058425/ji-yu-33-ti-de-jian-ji-xie-fa-zhi-xu-zen-uayi/) 这里总结三道搜索旋转数组题目的解题方式(注意二分查找的核心就是判断当前的中间位置在目标值的左边 or 右边):
+- 没有重复元素,并且只是搜索 `target` :
+![[Pasted image 20250405153607.png]]
+所以此时对于中间值: `nums[mid]` , `nums[mid] > end` 的情况下,说明 `mid` 在第一段中,否则说明 `mid` 在第二段中,接下来讨论 `x = nums[mid]` 在 `target` 右边的情况,如果 `x` 在第一段中,那么 `target` 必须在第一段中并且小于或者等于 `x` , 如果 `x` 在第二段中,那么 `target` 可以在第一段中或者在第二段中并且小于等于 `x`即可,判断条件的定义如下:
+```c++
+int end = nums.back();
+auto check = [&](int i) -> bool {
+	int x = nums[i];
+	// x 在第一段中
+	if(x > end) {
+		return target > end && target <= x;
+	}
+
+	// x 在第二段中
+	return target > end || target <= x;
+}
+```
+
+
