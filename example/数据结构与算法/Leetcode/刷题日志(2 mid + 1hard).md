@@ -508,3 +508,7 @@ bool verifyTreeOrder(vector<int>& postorder) {
 } 
 };
 ```
+# 4.5
+1. [找出所有子集的异或总和](https://leetcode.cn/problems/sum-of-all-subset-xor-totals/description/?envType=daily-question&envId=2025-04-05) 看着就是一道数学题,但是还是想不到数学解法,果断回溯直接过了,看了一下灵神解法,可以这样理解:
+> 特殊情况: 全部都是 `0 , 1` , 那么就可以发现至少有一个 `1` 的情况下,总的异或和总和为 $2^{n - 1}$ , 所以只需要对于每一个比特位求解总和即可,可以发现最终的结果就是 `2 ^ {所有为 1 的比特位} * 2 ^{n - 1}` ,同时注意到求解前者只需要对于所有的位进行异或即可!
+
