@@ -512,7 +512,7 @@ bool verifyTreeOrder(vector<int>& postorder) {
 1. [找出所有子集的异或总和](https://leetcode.cn/problems/sum-of-all-subset-xor-totals/description/?envType=daily-question&envId=2025-04-05) 看着就是一道数学题,但是还是想不到数学解法,果断回溯直接过了,看了一下灵神解法,可以这样理解:
 > 特殊情况: 全部都是 `0 , 1` , 那么就可以发现至少有一个 `1` 的情况下,总的异或和总和为 $2^{n - 1}$ , 所以只需要对于每一个比特位求解总和即可,可以发现最终的结果就是 `2 ^ {所有为 1 的比特位} * 2 ^{n - 1}` ,同时注意到求解前者只需要对于所有的位进行异或即可!
 
-2. [搜索旋转排序数组II](https://leetcode.cn/problems/search-in-rotated-sorted-array-ii/solutions/3058425/ji-yu-33-ti-de-jian-ji-xie-fa-zhi-xu-zen-uayi/) 这里总结三道搜索旋转数组题目的解题方式(注意二分查找的核心就是判断当前的中间位置在目标值的左边 or 右边):
+2. [搜索旋转排序数组II](https://leetcode.cn/problems/search-in-rotated-sorted-array-ii/solutions/3058425/ji-yu-33-ti-de-jian-ji-xie-fa-zhi-xu-zen-uayi/) **这里总结三道搜索旋转数组题目的解题方式(注意二分查找的核心就是判断当前的中间位置在目标值的左边 or 右边):**
 - 没有重复元素,并且只是搜索 `target` :
 ![[Pasted image 20250405153607.png]]
 所以此时对于中间值: `nums[mid]` , `nums[mid] > end` 的情况下,说明 `mid` 在第一段中,否则说明 `mid` 在第二段中,接下来讨论 `x = nums[mid]` 在 `target` 右边的情况,如果 `x` 在第一段中,那么 `target` 必须在第一段中并且小于或者等于 `x` , 如果 `x` 在第二段中,那么 `target` 可以在第一段中或者在第二段中并且小于等于 `x`即可,判断条件的定义如下:
@@ -527,6 +527,40 @@ auto check = [&](int i) -> bool {
 
 	// x 在第二段中
 	return target > end || target <= x;
+}
+```
+这里可以使用开区间或者闭区间
+- 有重复元素只需要搜索是否存在 `target`: 
+![[Pasted image 20250405161559.png]]
+
+注意到这里的判断第一or第二段的方法类似但是注意到如果遇到 `nums[right] == mid` 的情况,需要注意此时让 `right = mid` 即可,这里采用左闭右开的集合 `[begin , end)` , 最终返回 `nums[right] == mid` (这里主要是 `right` 作为一个基准而已,如果此时使用 `[,]` , 那么当 `mid == target` 的时候,`right` 的位置会错过这一个新的位置,从而在一个新的区间里面进行搜索,也就是需要保持 `x` 在区间里面即可)
+
+e.g:  [搜索排序数字中的最小值II](https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array-ii/submissions/619152550/) 注意类比上面,方法都是一样的,
+- 没有重复元素: 和搜索排序数组没有重复元素一样,最终返回 `nums[left]` 即可,相当于没有判断左右的操作
+- 有重复元素: 和搜索排序数组有重复元素一样,最终返回 `nums[left] or nums[right]` , 相当于没有判断左右的操作
+
+3. [商品排列顺序](https://leetcode.cn/problems/zi-fu-chuan-de-pai-lie-lcof/description/) 全排列,首先排序,之后注意去重即可,注意同一个数层和同一个树枝的关系:
+```c++
+// 注意排序
+void dfs(vector<int>& nums , vector<bool>& used) {
+	if(path.size() == nums.size()) {
+		ans.push_back(path);	
+		return ;
+	}
+
+	for(int i = 0 ; i < nums.size() ; i ++) {
+		if(i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) {
+			continue;	
+		}	
+
+		if(!used[i]) {
+			used[i] = true;	
+			path.push_back(nums[i]);
+			dfs(nums , used);
+			path.pop_back();
+			used[i] = false;
+		}
+	}
 }
 ```
 
