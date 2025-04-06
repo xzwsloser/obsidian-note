@@ -564,6 +564,14 @@ void dfs(vector<int>& nums , vector<bool>& used) {
 }
 ```
 # 4.6
-1. [最大整除子集](https://leetcode.cn/problems/largest-divisible-subset/solutions/3641565/san-chong-fang-fa-ji-yi-hua-sou-suo-di-t-pift/?envType=daily-question&envId=2025-04-06) 很有意思的一个题目 , `dp` 数组记录最大符合要求的子集的长度,并且使用一个 `from` 数组记录上面一个元素即可,记录答案的时候往前面递推,不断递推就可以找到最终的答案,回溯超时了(或者可以使用记忆化搜索)
+1. [最大整除子集](https://leetcode.cn/problems/largest-divisible-subset/solutions/3641565/san-chong-fang-fa-ji-yi-hua-sou-suo-di-t-pift/?envType=daily-question&envId=2025-04-06) 很有意思的一个题目 , `dp` 数组记录最大符合要求的子集的长度,并且使用一个 `from` 数组记录上面一个元素即可,记录答案的时候往前面递推,不断递推就可以找到最终的答案,回溯超时了(或者可以使用记忆化搜索),记忆化搜索都可以使用动态规划解决,所以这里就不做说明了,但是注意在 `C++` 中使用 `lambda` 表达时写递归函数的写法:
+```c++
+auto dfs = [&](this auto&& dfs , int param) -> returnType {
+	// ...
+	dfs(param);
+	// ...
+};
+```
+但是 `C++20` 新特性
 
 
