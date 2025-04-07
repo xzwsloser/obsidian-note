@@ -579,3 +579,4 @@ auto dfs = [&](this auto&& dfs , int param) -> returnType {
 也就是遍历到每一层之后记录从这一层向上的高度(如果遇到 `0`, 高度归 `0` 即可,之后对于每一次层得到的 `height` 进行一维大的最大矩形操作即可)
 # 4.7
 1. [分隔等和子集](https://leetcode.cn/problems/partition-equal-subset-sum/description/?envType=daily-question&envId=2025-04-07) 一维背包问题,首先遍历物品,之后逆序遍历背包即可
+2. [拼车](https://leetcode.cn/problems/car-pooling/submissions/619643437/) `md` 思路错了,以为是合并区间的做法,但是这里的思想就是简单的差分,利用 `map` 存储站点的人数变量量即可(注意到求解的过程中使用 `map` 从而使得数据有序)  **差分的思想: 记录每一个位置的变化量**
