@@ -9,3 +9,6 @@
 同时 `strings` 包的使用可以参考: https://juejin.cn/post/7309761475526557730
 # 2. go  reflect 中的 Elem 方法的作用
 `reflect.Type.Elem` 方法的作用是获取到底层元素的类型,比如对于指针类型,返回指针指向的类型,对于切片类型返回切片元素的类型,对于映射类型,返回映射值的类型
+# 3. goland快捷键
+1. 搜索符号: 万能快捷键 `Shift + Shift`
+2. 显示所有函数: `ctrl + F12`
