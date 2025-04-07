@@ -573,5 +573,7 @@ auto dfs = [&](this auto&& dfs , int param) -> returnType {
 };
 ```
 但是 `C++20` 新特性
-
-
+2. [有效数字](https://leetcode.cn/problems/biao-shi-shu-zhi-de-zi-fu-chuan-lcof/description/) 好恶心的题目,提交了六次终于过了,感觉这一中解析数字的题目都可以使用状态机来进行解析,比如解析 `Redis` 的命令
+3. [最大矩形](https://leetcode.cn/problems/maximal-rectangle/submissions/619534574/) 类比一维的最大矩形题目,可以发现,只需要一行一行的寻找最大高度即可,图解如下:
+![[Pasted image 20250406215110.png]]
+也就是遍历到每一层之后记录从这一层向上的高度(如果遇到 `0`, 高度归 `0` 即可,之后对于每一次层得到的 `height` 进行一维大的最大矩形操作即可)
