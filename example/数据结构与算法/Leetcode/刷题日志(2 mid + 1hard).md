@@ -577,3 +577,5 @@ auto dfs = [&](this auto&& dfs , int param) -> returnType {
 3. [最大矩形](https://leetcode.cn/problems/maximal-rectangle/submissions/619534574/) 类比一维的最大矩形题目,可以发现,只需要一行一行的寻找最大高度即可,图解如下:
 ![[Pasted image 20250406215110.png]]
 也就是遍历到每一层之后记录从这一层向上的高度(如果遇到 `0`, 高度归 `0` 即可,之后对于每一次层得到的 `height` 进行一维大的最大矩形操作即可)
+# 4.7
+1. [分隔等和子集](https://leetcode.cn/problems/partition-equal-subset-sum/description/?envType=daily-question&envId=2025-04-07) 一维背包问题,首先遍历物品,之后逆序遍历背包即可
