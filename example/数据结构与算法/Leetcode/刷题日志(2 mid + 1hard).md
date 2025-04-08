@@ -582,3 +582,13 @@ auto dfs = [&](this auto&& dfs , int param) -> returnType {
 2. [拼车](https://leetcode.cn/problems/car-pooling/submissions/619643437/) `md` 思路错了,以为是合并区间的做法,但是这里的思想就是简单的差分,利用 `map` 存储站点的人数变量量即可(注意到求解的过程中使用 `map` 从而使得数据有序)  **差分的思想: 记录每一个位置的变化量**
 3. [单词搜索II](https://leetcode.cn/problems/word-break-ii/solutions/468624/shou-hua-tu-jie-dan-ci-chai-fen-ii-cong-di-gui-dao/) 看样子可以使用回溯,但是我的第一个想法就是使用 `dp` 判断是否有解,使用回溯判断解的内容,好像直接使用回溯就可以过 ?
 
+# 4.8
+1. [使得数组元素不同的最大操作次数](https://leetcode.cn/problems/minimum-number-of-operations-to-make-elements-in-array-distinct/solutions/3027035/on-yi-ci-bian-li-jian-ji-xie-fa-pythonja-jgox/?envType=daily-question&envId=2025-04-08) 翻译题目条件(找到最大没有重复元素的后缀),最终返回 `i / 3 + 1` 即可
+2. 
+
+
+
+
+
+
+
