@@ -584,8 +584,10 @@ auto dfs = [&](this auto&& dfs , int param) -> returnType {
 
 # 4.8
 1. [使得数组元素不同的最大操作次数](https://leetcode.cn/problems/minimum-number-of-operations-to-make-elements-in-array-distinct/solutions/3027035/on-yi-ci-bian-li-jian-ji-xie-fa-pythonja-jgox/?envType=daily-question&envId=2025-04-08) 翻译题目条件(找到最大没有重复元素的后缀),最终返回 `i / 3 + 1` 即可
-2. 
-
+2. [最大数字](https://leetcode.cn/problems/largest-number/description/) 注意比较两个比较大的数字可以使用转换为 `string` 类型之后在进行判断的方式进行大小判断
+3. [两数相加II](https://leetcode.cn/problems/add-two-numbers-ii/)  链表翻转 + 两数相加可以做出来
+4. 有效数字: 和昨天的题目一个样,但是解法是一样的
+5.  [矩阵中的最大递增路径](https://leetcode.cn/problems/longest-increasing-path-in-a-matrix/submissions/619999483/)  `dfs` + 记忆化搜索,感觉难度不大,虽然是一道 `hard`
 
 
 
