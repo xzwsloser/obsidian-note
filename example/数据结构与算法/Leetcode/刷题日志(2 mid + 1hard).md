@@ -588,7 +588,12 @@ auto dfs = [&](this auto&& dfs , int param) -> returnType {
 3. [两数相加II](https://leetcode.cn/problems/add-two-numbers-ii/)  链表翻转 + 两数相加可以做出来
 4. 有效数字: 和昨天的题目一个样,但是解法是一样的
 5.  [矩阵中的最大递增路径](https://leetcode.cn/problems/longest-increasing-path-in-a-matrix/submissions/619999483/)  `dfs` + 记忆化搜索,感觉难度不大,虽然是一道 `hard`
+# 4.9
+1. 每日一题: EZ
+2. [验证图书取出的顺序](https://leetcode.cn/problems/zhan-de-ya-ru-dan-chu-xu-lie-lcof/description/) 栈的简单应用
+3. [撞色搭配](https://leetcode.cn/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-lcof/description/) 很有意思,一个数组中有两个元素不一样,如何利用异或求解:
 
+首先考虑一个数组中只有一个元素的情况,比如 `[4,2,4,5,5]` , 那么只需要把所有元素进行异或并且返回即可,但是对于两个元素的情况就不一样了,我们需要分别把这两个元素放入一个数组中,并且在这一个数组中执行异或操作即可,如何确定分类依据? , 如果 `a ^ b != 0` , 那么一定有一个位置 `a(n) ^ b(n) == 1` , 所以这一个位置一定有一个数组这一个位置为 `0` , 另外一个为 `1` ,所以自然可以把这一个作为分类依据,对于相同的数字一定分到一个组合中,所以不不需要担心影响
 
 
 
