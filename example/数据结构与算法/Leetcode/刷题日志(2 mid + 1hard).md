@@ -610,3 +610,5 @@ tails[k] 表示长度为 k + 1 的子序列的尾部元素
 
 4. [套娃问题](https://leetcode.cn/problems/russian-doll-envelopes/solutions/19681/zui-chang-di-zeng-zi-xu-lie-kuo-zhan-dao-er-wei-er/) 注意对于信的第二个参数进行降序列排列之后就可以忽略掉 `ev[0]` 相同的情况下选择了,同时对于第二个参数进行 `LIS`即可,**第一个参数升序 并且第二个参数降序排列**即可 
 
+# 4.10
+1. [统计强大整数的数量](https://leetcode.cn/problems/count-of-integers/submissions/620901564/) 数位 `dp` 好难 !!! , 这里统一采用第二个版本上下界限 `dp` 的方式进行求解,直接用灵神的模板 `memo` 需要定义为状态参数有关的量,所以需要判断 `!limit_low && !limit_high && memo[i][sum] != -1` , 其实存储的条件和取出的条件是一样的,可以做一个实验,把 `! + ! 改成 ! + 非 !`
