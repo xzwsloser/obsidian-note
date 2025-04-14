@@ -642,6 +642,9 @@ long long pow(long long x , long long n) {
 同时注意到 `a % MOD = d , b % MOD = m , 那么 (a * b) % MOD = d * m % MOD` , 利用余数和乘数就可以进行求解
 2. [破解密码](https://leetcode.cn/problems/ba-shu-zu-pai-cheng-zui-xiao-de-shu-lcof/solutions/190476/mian-shi-ti-45-ba-shu-zu-pai-cheng-zui-xiao-de-s-4/) 和前面几天的题目一个样子,在 `C++` 中直接使用 `a + b < b + a` 即可
 3. [二分图](https://leetcode.cn/problems/is-graph-bipartite/submissions/621890364/) 在单个连通域中,考虑染色问题即可,也就是相邻的位置染不同的颜色即可
+# 4.14
+1. [三元组](https://leetcode.cn/problems/count-good-triplets/?envType=daily-question&envId=2025-04-14) 如果不使用暴力解法应该是一道 `mid` , 注意到这一种约束条件比较多的题目,可以才有把这些条件化成一个条件,比如本题中的条件可以转换为求解满足特定范围的 `arr[i]` 的个数,所以此时只有两个自由度了,所以复杂度可以降低到 `O(n^2)` 了,另外一个思想就是使用前缀和,所以总结这一类题目的做法:               减少约束条件(降低自由度) ---> 使用前缀和等手段进行记录数据等操作 , 同时也可以考虑三指针法进行求解 
+2. [设计自助结算系统](https://leetcode.cn/problems/dui-lie-de-zui-da-zhi-lcof/description/)  使用 队列 + 优先队列 + 哈希表 或者 队列 + 优先队列都可以,注意利用后者的时候注意,由于加入的时候弹出的元素一定都是前面已经加入的元素,所以不用考虑这些元素了,后面的元素都是比较大的元素,核心就是单调队列!
 
 
 
