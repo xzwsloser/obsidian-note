@@ -628,7 +628,6 @@ tails[k] 表示长度为 k + 1 的子序列的尾部元素
 感觉学了记忆化搜索之后更喜欢记忆化搜索了
 
 # 4.13
-
 1. [好数的数量](https://leetcode.cn/problems/count-good-numbers/submissions/621872757/?envType=daily-question&envId=2025-04-13) 个人感觉很逆天的一个题目,不要直接数位 `dp` , `n` 太大了,并且注意到其实在偶数位置上面可以填 `4` 个数字,在奇数位上可以填写 `5` 个数字,那么最终的答案个数就是 `pow(5,a) * pow(4,b)` , 可以想到使用快速幂进行求解:
 ```c++
 long long pow(long long x , long long n) {
@@ -642,7 +641,7 @@ long long pow(long long x , long long n) {
 ```
 同时注意到 `a % MOD = d , b % MOD = m , 那么 (a * b) % MOD = d * m % MOD` , 利用余数和乘数就可以进行求解
 2. [破解密码](https://leetcode.cn/problems/ba-shu-zu-pai-cheng-zui-xiao-de-shu-lcof/solutions/190476/mian-shi-ti-45-ba-shu-zu-pai-cheng-zui-xiao-de-s-4/) 和前面几天的题目一个样子,在 `C++` 中直接使用 `a + b < b + a` 即可
-
+3. [二分图](https://leetcode.cn/problems/is-graph-bipartite/submissions/621890364/) 在单个连通域中,考虑染色问题即可,也就是相邻的位置染不同的颜色即可
 
 
 
