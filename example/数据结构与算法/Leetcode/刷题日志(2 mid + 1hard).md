@@ -725,3 +725,14 @@ for(int i = 1 ; i <= n ; i ++) {
 1. [统计好子数组的个数](https://leetcode.cn/problems/count-the-number-of-good-subarrays/solutions/2062761/shuang-zhi-zhen-by-endlesscheng-lkd9/?envType=daily-question&envId=2025-04-16) 双指针 + 滑动窗口即可,注意到如果当前的窗口满足要求,那么此时满足要求的子数组的个数为 `n - right` 即可
 2. [区间检索和](https://leetcode.cn/problems/range-sum-query-2d-immutable/description/) 两个维度的前缀和,注意图形的运算关系即可,注意到如果使用 `prefix[row + 1][col + 1]` 表示 `[0,0] -> [row,col]` 的前缀和如何求解指定区间的前缀和
 ![[Pasted image 20250416090117.png]]
+3. [计算右侧小于当前元素的个数](https://leetcode.cn/problems/count-of-smaller-numbers-after-self/description/) 最直观的想法就是直接使用树状数组直接统计大小(很直观的想法),可以过,同时可以类比之前求解逆序对的题目使用归并排序进行求解,主要注意到在归并排序中分治中的治部分进行答案的统计
+
+
+
+
+
+
+
+
+
+
