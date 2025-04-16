@@ -721,3 +721,7 @@ for(int i = 1 ; i <= n ; i ++) {
 右边一样的道理,思路还是比较难以想到
 
 `400` 题了 !!!
+# 4.16
+1. [统计好子数组的个数](https://leetcode.cn/problems/count-the-number-of-good-subarrays/solutions/2062761/shuang-zhi-zhen-by-endlesscheng-lkd9/?envType=daily-question&envId=2025-04-16) 双指针 + 滑动窗口即可,注意到如果当前的窗口满足要求,那么此时满足要求的子数组的个数为 `n - right` 即可
+2. [区间检索和](https://leetcode.cn/problems/range-sum-query-2d-immutable/description/) 两个维度的前缀和,注意图形的运算关系即可,注意到如果使用 `prefix[row + 1][col + 1]` 表示 `[0,0] -> [row,col]` 的前缀和如何求解指定区间的前缀和
+![[Pasted image 20250416090117.png]]
