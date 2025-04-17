@@ -729,7 +729,8 @@ for(int i = 1 ; i <= n ; i ++) {
 # 4.17
 1. 每日一题: 哈希表基本题目不用说了
 2. [格雷码](https://excalidraw.com/) 想到了卡诺图,其实 `grayCode(n)` 的求解方式就是 `{ grayCode(n - 1) , grayCode(n - 1) 翻转 | 1 << (n - 1) }` 
-3. 
+3. [不同的二叉搜树](https://leetcode.cn/problems/unique-binary-search-trees-ii/submissions/623097372/) 不要一直想回溯,利用递归即可,也就是枚举一个区间 `left -> right` 中数字,同时遍历两个区间中的数字即可,使用动态规划和记忆化搜索即可(记录序列长度和偏移量即可)
+
 
 
 
