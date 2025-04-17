@@ -726,7 +726,10 @@ for(int i = 1 ; i <= n ; i ++) {
 2. [区间检索和](https://leetcode.cn/problems/range-sum-query-2d-immutable/description/) 两个维度的前缀和,注意图形的运算关系即可,注意到如果使用 `prefix[row + 1][col + 1]` 表示 `[0,0] -> [row,col]` 的前缀和如何求解指定区间的前缀和
 ![[Pasted image 20250416090117.png]]
 3. [计算右侧小于当前元素的个数](https://leetcode.cn/problems/count-of-smaller-numbers-after-self/description/) 最直观的想法就是直接使用树状数组直接统计大小(很直观的想法),可以过,同时可以类比之前求解逆序对的题目使用归并排序进行求解,主要注意到在归并排序中分治中的治部分进行答案的统计
-
+# 4.17
+1. 每日一题: 哈希表基本题目不用说了
+2. [格雷码](https://excalidraw.com/) 想到了卡诺图,其实 `grayCode(n)` 的求解方式就是 `{ grayCode(n - 1) , grayCode(n - 1) 翻转 | 1 << (n - 1) }` 
+3. 
 
 
 
