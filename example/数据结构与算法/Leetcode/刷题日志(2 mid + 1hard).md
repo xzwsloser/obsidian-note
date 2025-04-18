@@ -732,7 +732,8 @@ for(int i = 1 ; i <= n ; i ++) {
 3. [不同的二叉搜树](https://leetcode.cn/problems/unique-binary-search-trees-ii/submissions/623097372/) 不要一直想回溯,利用递归即可,也就是枚举一个区间 `left -> right` 中数字,同时遍历两个区间中的数字即可,使用动态规划和记忆化搜索即可(记录序列长度和偏移量即可)
 # 4.18
 1. [统计坏数组的个数](https://leetcode.cn/problems/count-number-of-bad-pairs/description/?envType=daily-question&envId=2025-04-18) 同构,转换为新的数组,并且在新的数组中利用哈希表统计即可
-
+2. [删除并且获得点数](https://leetcode.cn/problems/delete-and-earn/description/) 增强版本打家劫舍问题,但是这里的限制是值域内部的限制,所以直接把值域映射到索引之后利用打家劫舍的方式进行求解即可
+3. [根据字符出现频率排序](https://leetcode.cn/problems/sort-characters-by-frequency/description/) 每什么意思,利用排序或者 `muliti_map` 进行拼接也可以
 
 
 
