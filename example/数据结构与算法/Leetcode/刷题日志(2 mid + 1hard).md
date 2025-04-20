@@ -734,8 +734,11 @@ for(int i = 1 ; i <= n ; i ++) {
 1. [统计坏数组的个数](https://leetcode.cn/problems/count-number-of-bad-pairs/description/?envType=daily-question&envId=2025-04-18) 同构,转换为新的数组,并且在新的数组中利用哈希表统计即可
 2. [删除并且获得点数](https://leetcode.cn/problems/delete-and-earn/description/) 增强版本打家劫舍问题,但是这里的限制是值域内部的限制,所以直接把值域映射到索引之后利用打家劫舍的方式进行求解即可
 3. [根据字符出现频率排序](https://leetcode.cn/problems/sort-characters-by-frequency/description/) 每什么意思,利用排序或者 `muliti_map` 进行拼接也可以
-
-
+# 4.19
+写`CPU` 去了,没有做题
+# 4.20
+1. [统计公平数对](https://leetcode.cn/problems/count-the-number-of-fair-pairs/submissions/623998423/?envType=daily-question&envId=2025-04-19)  思路还是听普通的,但是,首先利用树状数组(超出内存限制了),所以可以想到就算把两个数字交换顺序也没有什么影响,所以首先排序,之后遍历的过程中利用二分查找寻找某一个区间里面大于或者小于两个区间边界的元素,之后进行相减操作即可
+2. [森林中的兔子](https://leetcode.cn/problems/rabbits-in-forest/description/?envType=daily-question&envId=2025-04-20) 贪心算法,首先统计个数,并且注意到相同颜色的兔子一定是说的一样的数量,所以只需要尽可能多的合并相同数量的兔子,同时剩余的兔子如果 `p.second % (p.first + 1) != 0` , 那么剩余的兔子都归入到一一个种类即可 
 
 
 
