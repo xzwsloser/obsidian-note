@@ -744,7 +744,7 @@ for(int i = 1 ; i <= n ; i ++) {
 # 4.21
 1. [统计隐藏数组的数目](https://leetcode.cn/problems/count-the-hidden-sequences/description/?envType=daily-question&envId=2025-04-21)  前缀和 + 数学问题,求解偏置量即可(其实可以不用求解数组本身),这里可以采用动态计算最大值和最小值,分别利用 `s , min_s , max_s` 记录当前值
 2. [最大连续1的个数](https://leetcode.cn/problems/max-consecutive-ones-iii/solutions/) 对于连续区间可以使用滑动窗口(双指针)
-3. 
+3. [二叉树的反序列化和序列化](https://leetcode.cn/problems/xu-lie-hua-er-cha-shu-lcof/submissions/624147972/) 使用层序遍历或者前序遍历都可以,注意到后者可以使用队列来存储元素
 
 
 
