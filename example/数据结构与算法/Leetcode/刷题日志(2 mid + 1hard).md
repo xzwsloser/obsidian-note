@@ -739,6 +739,7 @@ for(int i = 1 ; i <= n ; i ++) {
 # 4.20
 1. [统计公平数对](https://leetcode.cn/problems/count-the-number-of-fair-pairs/submissions/623998423/?envType=daily-question&envId=2025-04-19)  思路还是听普通的,但是,首先利用树状数组(超出内存限制了),所以可以想到就算把两个数字交换顺序也没有什么影响,所以首先排序,之后遍历的过程中利用二分查找寻找某一个区间里面大于或者小于两个区间边界的元素,之后进行相减操作即可
 2. [森林中的兔子](https://leetcode.cn/problems/rabbits-in-forest/description/?envType=daily-question&envId=2025-04-20) 贪心算法,首先统计个数,并且注意到相同颜色的兔子一定是说的一样的数量,所以只需要尽可能多的合并相同数量的兔子,同时剩余的兔子如果 `p.second % (p.first + 1) != 0` , 那么剩余的兔子都归入到一一个种类即可 
+3. [数据流中的中位数](https://leetcode.cn/problems/shu-ju-liu-zhong-de-zhong-wei-shu-lcof/submissions/624012145/) 一个大顶堆,一个小顶堆,规定大顶堆中的元素个数始终多与小顶堆中的元素个数即可
 
 
 
