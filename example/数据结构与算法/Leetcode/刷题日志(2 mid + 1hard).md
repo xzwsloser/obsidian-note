@@ -741,6 +741,10 @@ for(int i = 1 ; i <= n ; i ++) {
 2. [森林中的兔子](https://leetcode.cn/problems/rabbits-in-forest/description/?envType=daily-question&envId=2025-04-20) 贪心算法,首先统计个数,并且注意到相同颜色的兔子一定是说的一样的数量,所以只需要尽可能多的合并相同数量的兔子,同时剩余的兔子如果 `p.second % (p.first + 1) != 0` , 那么剩余的兔子都归入到一一个种类即可 
 3. [数据流中的中位数](https://leetcode.cn/problems/shu-ju-liu-zhong-de-zhong-wei-shu-lcof/submissions/624012145/) 一个大顶堆,一个小顶堆,规定大顶堆中的元素个数始终多与小顶堆中的元素个数即可
 
+# 4.21
+1. [统计隐藏数组的数目](https://leetcode.cn/problems/count-the-hidden-sequences/description/?envType=daily-question&envId=2025-04-21)  前缀和 + 数学问题,求解偏置量即可(其实可以不用求解数组本身),这里可以采用动态计算最大值和最小值,分别利用 `s , min_s , max_s` 记录当前值
+2. [最大连续1的个数](https://leetcode.cn/problems/max-consecutive-ones-iii/solutions/) 对于连续区间可以使用滑动窗口(双指针)
+3. 
 
 
 
