@@ -747,7 +747,10 @@ for(int i = 1 ; i <= n ; i ++) {
 3. [二叉树的反序列化和序列化](https://leetcode.cn/problems/xu-lie-hua-er-cha-shu-lcof/submissions/624147972/) 使用层序遍历或者前序遍历都可以,注意到后者可以使用队列来存储元素
 # 4.22
 1. [统计理想数组的个数](https://leetcode.cn/problems/count-the-number-of-ideal-arrays/description/?envType=daily-question&envId=2025-04-22) 好难,放过了,数位 `dp` 过不了
-2. 
+2. [恢复二叉树](https://leetcode.cn/problems/recover-binary-search-tree/description/) 本来一个非常简单的题目,中序遍历,由于只是破坏了两个节点,所以只需要找到第一个不满足要求的节点和最后一个不满足要求的节点进行交换即可
+3. [链表转换为 BST](https://leetcode.cn/problems/convert-sorted-list-to-binary-search-tree/submissions/624512236/) 找中间节点,和数组转换为 `BST` 差不多,缝合怪而已
+
+
 
 
 
