@@ -749,6 +749,9 @@ for(int i = 1 ; i <= n ; i ++) {
 1. [统计理想数组的个数](https://leetcode.cn/problems/count-the-number-of-ideal-arrays/description/?envType=daily-question&envId=2025-04-22) 好难,放过了,数位 `dp` 过不了
 2. [恢复二叉树](https://leetcode.cn/problems/recover-binary-search-tree/description/) 本来一个非常简单的题目,中序遍历,由于只是破坏了两个节点,所以只需要找到第一个不满足要求的节点和最后一个不满足要求的节点进行交换即可
 3. [链表转换为 BST](https://leetcode.cn/problems/convert-sorted-list-to-binary-search-tree/submissions/624512236/) 找中间节点,和数组转换为 `BST` 差不多,缝合怪而已
+# 4.23
+1. 每日一题: `Easy` , 不说了
+2. [链表插入排序](https://leetcode.cn/problems/insertion-sort-list/description/) 链表插入排序和数组插入排序的区别就是不可以从后面往前面推,从前面往后面推就可以了
 
 
 
