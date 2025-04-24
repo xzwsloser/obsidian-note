@@ -759,7 +759,8 @@ for(int i = 1 ; i <= n ; i ++) {
 # 4.24
 1. [统计完全子数组的数量](https://leetcode.cn/problems/count-complete-subarrays-in-an-array/description/?envType=daily-question&envId=2025-04-24)  滑动窗口,经典题目,套模板就可以了
 2. [比较版本号](https://leetcode.cn/problems/compare-version-numbers/description/) 没什么营养,不说了
-3. 
+3. [扰乱字符串](https://leetcode.cn/problems/scramble-string/description/) 递归接法比较容易想到,但是超时,判断了字符种类依然超时,所以采用记忆化搜索,注意记忆化搜索主要是要找到相同的状态,也就是每一次匹配的入参是一样的,确定入参的方式就是记录 `s1 的 开始索引 start1` , `s2 的开始索引 start2` , 并且记录匹配的长度即可,作为 `hard` , 难度还行
+
 
 
 
