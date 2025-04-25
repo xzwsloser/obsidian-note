@@ -763,7 +763,7 @@ for(int i = 1 ; i <= n ; i ++) {
 # 4.25
 1. [统计趣味子数组的个数](https://leetcode.cn/problems/count-of-interesting-subarrays/description/?envType=daily-question&envId=2025-04-25) 可以看出使用前缀和,但是不知道如何使用前缀和,看了一下 ys 的题解,可以发现其中利用了前缀和 + 转换的思想,比如利用前缀和 `cnts[i]` 表示 `[0 , i - 1]` 内的满足要求的元素个数,那么对于一个区间 `[i,j]` , 其中满足要求的 `cnt` 的个数为 `cnts[j + 1] - cnts[i]` ,也就是 `(cnts[j + 1] - cnts[i]) % modulo == k % modulo`,所以进行转换,前缀和或者哈希表的思想(类似于两数之和)的思想就是利用后面的数字推出前面的数组,那么上面的式子可以变形为: `(cnts[j + 1] - k) % modulo == (cnts[i] % modulo)` ,所以只需要每一次 `ans += cnts[(s - k) % modulo]` 即可,利用一个 `sum` 统计前缀和,利用一个 `cnts` 统计 `sum[i] % modulo` 即可
 2. 重复序列: 定长滑窗,每什么好说的
-3. 
+3. [单词搜索II](https://leetcode.cn/problems/word-ladder-ii/submissions/625421181/) 非常好的一道题目,首先利用 `bfs` 得到答案,之后利用 `dfs` 遍历建立起来的答案图,注意到 `bfs` 使用 `curl -> 当前层  nextl -> 下一个层` , 这样可以批量遍历每一个层
 
 
 
