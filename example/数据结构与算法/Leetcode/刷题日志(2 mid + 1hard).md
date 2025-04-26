@@ -767,16 +767,3 @@ for(int i = 1 ; i <= n ; i ++) {
 # 4.26
 1. [求解有界数组](https://leetcode.cn/problems/count-subarrays-with-fixed-bounds/submissions/625659257/?envType=daily-question&envId=2025-04-26) 第一想法: 滑动窗口 + 单调队列 + 后缀数组 , 虽然可以做出来,时间复杂度也是 `O(n)` ,编码也比较复杂,看了 ys 的解答,发现可以直接枚举右端点,只需要发现左边端点的范围即可(第一种方法其实使用了枚举右端点) , 假设第一次最大值和最小值出现的位置分别为 `max_i , min_i` , 不满足的位置为 `i0` , 那么右边端点在 `[i0 + 1 , min(max_i ,min_i)]` 内的元素都满足要求
 2. [矩阵总面积](https://leetcode.cn/problems/rectangle-area/) 算出水平方向的重叠和垂直方向的重叠即可
-3. []()
-
-
-
-
-
-
-
-
-
-
-
-
