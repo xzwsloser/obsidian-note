@@ -35,7 +35,30 @@ jobs:
 			- run: npm install -g bats  # 执行命令	
 			- run: bats -v
 ```
-
+自己写的一个用于 `action` 的 `yaml` 文件如下:
+```go
+name: build     # workflow 的名称
+on:
+  push:  # 触发条件
+    branches: # 设置触发的分支
+      - master
+jobs:
+  build:    # job_id
+    runs-on: ubuntu-latest # 指定运行的操作系统
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2 # 进行代码检查
+      - name: Build project
+        run: |
+          make build
+          echo "WorkSpace after build:"
+          ls -R
+      - name: Save build output
+        uses: actions/upload-artifact@v4 # 保留构建产物
+        with:
+          name: build-output
+          path: ./bin/Go-Redis # 可执行文件路径
+```
 
 
 
