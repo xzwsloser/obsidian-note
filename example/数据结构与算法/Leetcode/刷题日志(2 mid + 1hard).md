@@ -767,3 +767,6 @@ for(int i = 1 ; i <= n ; i ++) {
 # 4.26
 1. [求解有界数组](https://leetcode.cn/problems/count-subarrays-with-fixed-bounds/submissions/625659257/?envType=daily-question&envId=2025-04-26) 第一想法: 滑动窗口 + 单调队列 + 后缀数组 , 虽然可以做出来,时间复杂度也是 `O(n)` ,编码也比较复杂,看了 ys 的解答,发现可以直接枚举右端点,只需要发现左边端点的范围即可(第一种方法其实使用了枚举右端点) , 假设第一次最大值和最小值出现的位置分别为 `max_i , min_i` , 不满足的位置为 `i0` , 那么右边端点在 `[i0 + 1 , min(max_i ,min_i)]` 内的元素都满足要求
 2. [矩阵总面积](https://leetcode.cn/problems/rectangle-area/) 算出水平方向的重叠和垂直方向的重叠即可
+# 4.27
+1. 每日一题: EZ
+2. [最短回文子串](https://leetcode.cn/problems/shortest-palindrome/description/)个人感觉很有意思的一道题目,注意到如果 `s = hs + s'` 其中 `hs` 为回文子串,那么满足要求的最短回文子串就是 `s' + hs + s'` , 所以我们的目标就是求解最长回文子串 `hs` , 可以构造字符串 `s + # + rs` , 也就是 `hs + s' + # + r(s') + r(hs)` 注意到其中 `r(hs) == hs` , 所以也就是对于构造的字符串使用 `kmp` 算法求解最长公共前后缀即可
