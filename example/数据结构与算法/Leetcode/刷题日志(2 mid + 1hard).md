@@ -770,3 +770,6 @@ for(int i = 1 ; i <= n ; i ++) {
 # 4.27
 1. 每日一题: EZ
 2. [最短回文子串](https://leetcode.cn/problems/shortest-palindrome/description/)个人感觉很有意思的一道题目,注意到如果 `s = hs + s'` 其中 `hs` 为回文子串,那么满足要求的最短回文子串就是 `s' + hs + s'` , 所以我们的目标就是求解最长回文子串 `hs` , 可以构造字符串 `s + # + rs` , 也就是 `hs + s' + # + r(s') + r(hs)` 注意到其中 `r(hs) == hs` , 所以也就是对于构造的字符串使用 `kmp` 算法求解最长公共前后缀即可
+# 4.28
+1. [统计得分小于 K的子数组数目](https://leetcode.cn/problems/count-subarrays-with-score-less-than-k/description/?envType=daily-question&envId=2025-04-28)  仔细思考一下应该是一道 `mid` , 利用窗口即可,这里可以根据每一个元素求解,把每一个元素当成满足要求的最后一个元素即可,并且如果 `[left , right]` 满足要求,那么其间的元素也满足要求
+2. 
