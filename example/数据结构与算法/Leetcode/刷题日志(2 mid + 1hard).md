@@ -773,3 +773,5 @@ for(int i = 1 ; i <= n ; i ++) {
 # 4.28
 1. [统计得分小于 K的子数组数目](https://leetcode.cn/problems/count-subarrays-with-score-less-than-k/description/?envType=daily-question&envId=2025-04-28)  仔细思考一下应该是一道 `mid` , 利用窗口即可,这里可以根据每一个元素求解,把每一个元素当成满足要求的最后一个元素即可,并且如果 `[left , right]` 满足要求,那么其间的元素也满足要求
 2. [统计打字方案](https://leetcode.cn/problems/count-number-of-texts/description/) 看有几个相同的字母即可,也就是关注最后一个字母的情况,比如 `2 -> a 22 -> b 222 -> c`,同时考虑到相同字符的数量不可以超过规定的数量即可
+# 4.29
+1. [统计最大元素出现最少 K 次的子数组](https://leetcode.cn/problems/count-subarrays-where-max-element-appears-at-least-k-times/description/?envType=daily-question&envId=2025-04-29)  连着几天都是一样的套路,滑动窗口 + 枚举右边满足要求的序列即可
