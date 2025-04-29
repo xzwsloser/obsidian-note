@@ -8,11 +8,12 @@
 5. `delete n`: 删除对应编号的断点
 6. `s`: `step into` 步入
 7. `n`: `next` 下一步
-8. `bt`: 查看当前栈帧
-9. `frame N`: 切换到第 `N` 个栈帧
-10. `up , down`: 向上 or 向下移动栈帧
-11. `info frame`: 打印当前栈帧的信息(参数列表,`pc`,保存寄存器等)
-12. `info locals`: 打印全部的局部变量
+8. `si`: 单步执行当前汇编指令
+9. `bt`: 查看当前栈帧
+10. `frame N`: 切换到第 `N` 个栈帧
+11. `up , down`: 向上 or 向下移动栈帧
+12. `info frame`: 打印当前栈帧的信息(参数列表,`pc`,保存寄存器等)
+13. `info locals`: 打印全部的局部变量
 # 多文件调试
 1. `info source`: 查看当前代码文件
 2. `info sources`: 列出项目中所有的源文件
@@ -50,7 +51,11 @@
 9. `info locals`: 查看局部变量
 10. `watch shared_variable`: 检测共享变量的修改
 11. `break pthread_create`: 停止在创建线程的位置
-
+## 调试汇编程序
+1. `layout split`: 进入布局模式,同时显示源代码和汇编程序
+2. `layout src`: 返回源代码窗口
+3. `layout asm`: 返回汇编代码窗口
+4. `layout regs`: 显示寄存器
 
 
 
