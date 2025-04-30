@@ -87,3 +87,20 @@ git fetch origin test
 git merge origin master
 git push origin feat/ill_back:test
 ```
+### p3: get fetch 用于更新本地分支
+1. 首先来去远程分支最新的更新:
+```c
+git fetch
+```
+2. 查看远程分支更新情况:
+```c
+git branch -r
+```
+或者直接对比本地分支和远程分支的状态:
+```c
+git log HEAD..origin/<branch-name>
+```
+3. 合并远程分支到本地分支:
+```
+git merge origin/main
+```
