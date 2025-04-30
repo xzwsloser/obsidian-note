@@ -776,3 +776,6 @@ for(int i = 1 ; i <= n ; i ++) {
 # 4.29
 1. [统计最大元素出现最少 K 次的子数组](https://leetcode.cn/problems/count-subarrays-where-max-element-appears-at-least-k-times/description/?envType=daily-question&envId=2025-04-29)  连着几天都是一样的套路,滑动窗口 + 枚举右边满足要求的序列即可
 2. [施咒的最大伤害](https://leetcode.cn/problems/maximum-total-damage-with-spell-casting/description/) 非常典型的一个题目, 映射值域 + 打家劫舍动态规划 , 但是注意到本题中开不了一个大小为 `1e9` 的数组,首先利用一个哈希表映射,之后进行排序,最后进行动态规划
+# 4.30
+1. 每日一题: 不说了 ...
+2. [查找给定hash值的子串](https://leetcode.cn/problems/find-substring-with-given-hash-value/description/)  由于前面小的反而权重的次数低,所以使用逆序哈希的方法,从后面开始遍历,这样更加容易找递推关系
