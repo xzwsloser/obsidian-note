@@ -781,3 +781,6 @@ for(int i = 1 ; i <= n ; i ++) {
 2. [查找给定hash值的子串](https://leetcode.cn/problems/find-substring-with-given-hash-value/description/)  由于前面小的反而权重的次数低,所以使用逆序哈希的方法,从后面开始遍历,这样更加容易找递推关系
 # 5.1
 1. [你可以安排的最多任务数量](https://leetcode.cn/problems/maximum-number-of-tasks-you-can-assign/description/?envType=daily-question&envId=2025-05-01) 非常深刻的一个题目  反过来思考,不要想如何求解最多的任务数量,可以这样想,如果转换为判断是否可以完成 `k` 样任务,之后利用二分的方法来求解条件的最大 `k` 值即可, 所以只需要完成 `k` 样任务即可, 利用贪心算法:  1. 使用力量最强的  `k` 的人来完成任务,并且要求每一个人最少完成一个任务 2. 如果一个人可以不吃药就完成一个任务,直接完成这一个需要实力最小的任务即可 3. 如果不吃药无法完成一个任务,必须吃药并且完成可以完成的最难的一个任务即可
+# 5.2
+1. [推多米诺](https://leetcode.cn/problems/push-dominoes/description/?envType=daily-question&envId=2025-05-02) 对于 `.` 的序列,去这一个区间即可,之后判断区间两边的元素判断如何填充即可,模拟题
+2. [计数质数](https://leetcode.cn/problems/count-primes/description/)  `Mit6.s081` 课上学的好东西,欧拉筛
