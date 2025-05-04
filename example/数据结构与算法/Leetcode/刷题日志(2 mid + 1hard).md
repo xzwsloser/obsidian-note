@@ -784,3 +784,8 @@ for(int i = 1 ; i <= n ; i ++) {
 # 5.2
 1. [推多米诺](https://leetcode.cn/problems/push-dominoes/description/?envType=daily-question&envId=2025-05-02) 对于 `.` 的序列,去这一个区间即可,之后判断区间两边的元素判断如何填充即可,模拟题
 2. [计数质数](https://leetcode.cn/problems/count-primes/description/)  `Mit6.s081` 课上学的好东西,欧拉筛
+# 5.3
+没有刷题
+# 5.4
+1. 两道每日一题,不说了
+2. 
